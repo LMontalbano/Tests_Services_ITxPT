@@ -3,25 +3,25 @@ import struct
 import time
 
 
-#addr une adresse d'un server ntp
+# addr une adresse d'un serveur NTP
 def RequestTimefromNtp(addr='pool.ntp.org'):                    
     
-    # Correspond au 1er janvier 2040 00:00:00 UTC
+    # Correspond au 1er janvier 2040 00:00:00 UTC+0
     REF_TIME = 2208988800
     
-    #REF_TIME_PLUS_5_MIN = 2208989100 Correspond au 1er janvier 2040 00:05:00 UTC
+    #REF_TIME_PLUS_5_MIN = 2208989100 Correspond au 1er janvier 2040 00:05:00 UTC+0
     
     
-    # AF_INET parce qu'on est en IPV4 si on passe sur du IPV6 ce serra AF_INET6
-    # SOCK_DGRAM parce que le NTP est en UDP si on serrai sur du TCP ce serrai SOCK_STREAM
+    # AF_INET parce qu'on est en IPV4 si on passe sur du IPV6 se serra AF_INET6
+    # SOCK_DGRAM parce que le NTP est en UDP si on était en TCP se serrait SOCK_STREAM
     mySocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     #print(mySocket)
     #print("------------------------------------------------------------------------------------------------------------------------------------------")
     
     
-    # le b'\x23' correspond a 0X23 il s'agit du premier octet spécifiant LI, VN et MODE
+    # le b'\x23' correspond à 0X23, il s'agit du premier octet spécifiant LI, VN et MODE
     # ici j'ai 0X23 pour avoir le VN = 4 qui est une version plus récente que le VN=3 (0X1B) (b'\x1b' + 47 * b'\0')
-    # le + 47 * b'\0' correspond a 47 fois 00 00 00 00 (47 octets de 0).
+    # le + 47 * b'\0' correspond à 47 fois 00 00 00 00 (47 octets de 0).
     # cela fait donc 48 octets
     data = b'\x23' + 47 * b'\0'
     #print(data)
@@ -30,14 +30,14 @@ def RequestTimefromNtp(addr='pool.ntp.org'):
     #print("------------------------------------------------------------------------------------------------------------------------------------------")
     
     
-    # le sendto permet d'envoye des données à une adresse donnée
+    # le sendto() permet d'envoyé des données à une adresse donnée
     # socket.sendto(message.encode(), (serverName, serverPort)) 
     # ici 123 car il s'agit du Network Time Protocol NTP, used for time synchronization
-    # addr c'est ce qu'on a en paramètre de la fonction ici le server est : pool.ntp.org
+    # addr c'est ce qu'on a en paramètre de la fonction ici le serveur est : pool.ntp.org
     # et notre "message" c'est notre data qui est déjà encodé donc pas besoin de encode()
     mySocket.sendto(data, (addr, 123))
     
-    # reçoit des données et l'adresse de l'envoyeur sous forme de tuple (données, addresse)
+    # reçoit les données et l'adresse de l'envoyeur sous forme de tuple (données, addresse)
     # En paramètre on lui indique le nombre d'octets à lire (bufsize) à partir du socket UDP
     # ici je mets 50 comme nous n'avons que 48 octets pour notre date
     (data, addr) = mySocket.recvfrom(50)
@@ -65,7 +65,7 @@ def RequestTimefromNtp(addr='pool.ntp.org'):
         
         t -= REF_TIME
         
-    # time.ctime convertie une date/heure exprimé en sec depuis epoch (1er janvier 1970 00:00:00 UTC +0) en date sous la forme:
+    # time.ctime convertie une date/heure exprimée en sec depuis epoch (1er janvier 1970 00:00:00 UTC +0) en date sous la forme:
     # 'Jour Mois NumJour Heure:Min:Sec Annee en UTC +0'
     return time.ctime(t)
 
@@ -73,11 +73,11 @@ if __name__ == "__main__":
     
     # t en second car on l'utilise pour le time.sleep()
     t = 2
-    # boucle à True pour faire une boucle infini
+    # boucle à True pour faire une boucle infinie
     boucle = True
     
     while boucle:
         print(RequestTimefromNtp())
-        # time.sleep(t) permet de freeze le programme pendant une periode t sec
+        # time.sleep(t) permet de freeze le programme pendant une période t sec
         time.sleep(t)
     
