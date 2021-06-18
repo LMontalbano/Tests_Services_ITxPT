@@ -1,9 +1,10 @@
 import ntplib
 import time
-import argparse
+import sys
+import getopt
 
-    
-def get_network_time(x):
+
+def get_network_time(x='pool.ntp.org'):
     #start = time.time()
     c = ntplib.NTPClient()
     response = c.request(x)
@@ -11,32 +12,12 @@ def get_network_time(x):
     return time.ctime(ts)
 
 
-
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("pool.ntp.org")
-    args = parser.parse_args()
-
-    if args.pool.ntp.org:
-        x = "pool.ntp.org"
-        
-        
-    parser = argparse.ArgumentParser()
-    parser.add_argument("ntp.midway.ovh")
-    args = parser.parse_args()
-
-    if args.pool.ntp.org:
-        x = "ntp.midway.ovh"
-        
-        
-    parser = argparse.ArgumentParser()
-    parser.add_argument("ntp.unice.fr")
-    args = parser.parse_args()
-
-    if args.pool.ntp.org:
-        x = "ntp.unice.fr"
-
-
+    
+    x = sys.argv[1:][0]
+    print('récupération de: ')
+    print(x)
+    
     # t en second car on l'utilise pour le time.sleep()
     t = 2
     # boucle à True pour faire une boucle infinie
