@@ -39,6 +39,7 @@ if __name__ == "__main__":
         logger = logging.getLogger()
         try:
             print(get_network_time(server))
+            
             # time.sleep(t) permet de freeze le programme pendant une période t sec
             time.sleep(t)
             
