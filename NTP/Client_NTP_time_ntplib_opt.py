@@ -1,9 +1,6 @@
 import ntplib
 import time
 import sys
-import getopt
-import requests
-import datetime
 import logging
 import socket
 
