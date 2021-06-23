@@ -1,14 +1,26 @@
 import socket
-import time
-
-command = 'test.xml'
-
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.connect(("127.0.0.1", 54239))
-
-s.send(command)
-
-time.sleep(2)
-resp = s.recv(3000)
-
-print(resp)
+ONE_CONNECTION_ONLY =(True)
+filename = "test.xml"
+port = 1218
+sock = socket.socket()
+host = socket.gethostname()
+sock.bind((host, port))
+sock.listen(10)
+print("File Server Started...")
+while True:
+    conn, addr = sock.accept()
+    print(f"Accepted connection from {addr}")
+    data = conn.recv(1024)
+    print(f"Server received {data}")
+    with open(filename, "rb") as file:
+        data = file.read(1024)
+        while data:
+            conn.send(data)
+            print(f"Sent {data!r}")
+            data = file.read(1024)
+    print("File sent complete.")
+    conn.close()
+    if(ONE_CONNECTION_ONLY):
+        break
+sock.shutdown(1)
+sock.close()
