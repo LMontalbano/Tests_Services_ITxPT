@@ -1,6 +1,6 @@
 import socket
+import time
 import xml.etree.ElementTree as ET
-
 
 def parseXML(xmlfile):
     xmlfile = "test.xml"
@@ -55,22 +55,24 @@ def parseXML(xmlfile):
     return dico
 
 
-sock = socket.socket()
-host = socket.gethostname()
-port = 1218
-sock.connect((host, port))
-sock.send(b"Hello from client")
-with open("readfile.xml", "wb") as file:
-    print("File open")
-    print("receiving data...")
-    #while True:
-    data = sock.recv(1024)
-    res = parseXML(data)
-    print(f"{res}")
-        #if not data:
-            #break
-        #file.write(data)
-print("Got the file")
-sock.close()
-print("Connection finito pipo")
+
+IP_CLI = '127.0.0.1'
+PORT_CLI = 5004
+client_adress = (IP_CLI, PORT_CLI)
+
+t = 1
+
+# Create socket for server
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+s.bind(client_adress)
+
+while True:
+    data, address = s.recvfrom(4096)
+    #print(data)
+    print(parseXML(data.decode()))
+    
+    time.sleep(1)
+    
+    
     

@@ -19,8 +19,8 @@ while True:
             print(f"Sent {data!r}")
             data = file.read(1024)
     print("File sent complete.")
-    conn.close()
-    if(ONE_CONNECTION_ONLY):
-        break
-sock.shutdown(1)
-sock.close()
+    #conn.close()
+    #if(ONE_CONNECTION_ONLY):
+        #break
+#sock.shutdown(1)
+#sock.close()
