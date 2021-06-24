@@ -4,19 +4,22 @@ import xml.etree.ElementTree as ET
 import logging
 import sys
 
-def parseXML(xmlfile):
-    xmlfile = "test.xml"
-
-    tree = ET.parse(xmlfile)
+def parseXML(xml_string):
+    #print(xml_string)
+    
+    tree = ET.ElementTree(ET.fromstring(xml_string))
+    #print (tree)
     root = tree.getroot()
-
-
+    #print(root)
+    
+    
     #permet de faire un print du fichier xml
     #ET.dump(tree)
 
     # Création de notre dico
     dico = {"Latitude": [], "Longitude": [], "Altitude": "", "SpeedOverGround": "", "Time": "", "Date": ""}
 
+    
 
     # Récupération de la latitude
     for elem in root.findall("./GNSSLocation/Latitude/Degree"):
@@ -85,10 +88,12 @@ while True:
     data, address = s.recvfrom(4096)
     #print(data)
     #print(parseXML(data.decode()))
-    logger.info(parseXML(data.decode()))
     
+    logger.info(parseXML(data.decode()))
+        
     time.sleep(1)
     logger.removeHandler(handler)
+    
     
     
     

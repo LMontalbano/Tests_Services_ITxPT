@@ -19,8 +19,8 @@ s.bind(server_address)
 print("Server is running...")
 while True:
     with open('test.xml', "rb") as file:
-        data = file.read(1024)
+        data = file.read(4096)
     s.sendto(data, client_adress)
-    #print(data)
+    #print(data.decode())
     
     time.sleep(t)
