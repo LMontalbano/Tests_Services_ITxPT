@@ -6,9 +6,8 @@ import socket
 
 
 def get_network_time(server='pool.ntp.org'):
-    #start = time.time()
     c = ntplib.NTPClient()
-    print(c)
+    #print(c)
     response = c.request(server)
     ts = response.tx_time
     return time.ctime(ts)
