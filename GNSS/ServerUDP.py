@@ -21,6 +21,6 @@ while True:
     with open('test.xml', "rb") as file:
         data = file.read(1024)
     s.sendto(data, client_adress)
-    print(data)
+    #print(data)
     
     time.sleep(t)

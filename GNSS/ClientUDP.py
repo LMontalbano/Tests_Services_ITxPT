@@ -1,6 +1,8 @@
 import socket
 import time
 import xml.etree.ElementTree as ET
+import logging
+import sys
 
 def parseXML(xmlfile):
     xmlfile = "test.xml"
@@ -68,11 +70,25 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.bind(client_adress)
 
 while True:
+    logging.basicConfig(filename="std.log", 
+                    format='%(asctime)s %(message)s', 
+                    filemode='w')
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+    
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    
     data, address = s.recvfrom(4096)
     #print(data)
-    print(parseXML(data.decode()))
+    #print(parseXML(data.decode()))
+    logger.info(parseXML(data.decode()))
     
     time.sleep(1)
+    logger.removeHandler(handler)
     
     
     
