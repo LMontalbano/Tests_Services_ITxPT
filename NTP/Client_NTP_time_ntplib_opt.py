@@ -30,8 +30,6 @@ if __name__ == "__main__":
     print('Server: ' + server)
     
     
-    
-    
     while boucle:
         logger = logging.getLogger()
         try:
