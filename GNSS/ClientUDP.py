@@ -20,15 +20,15 @@ def parseXML(xml_string):
     dico = {"Latitude": ["", ""], "Longitude": ["", ""], "Altitude": "", "SpeedOverGround": "", "Time": "", "Date": ""}
 
     
-    for tags in root.findall("./GNSSLocation"):
+    for tag in root.findall("./GNSSLocation"):
         
         ######### Récupération de la latitude #########
         #Degree
-        if tags.find("Latitude") == None:
+        if tag.find("Latitude") == None:
             #print(tags.find("Latitude"))
             return ("Error, 'Latitude' tag not exists")
         else:
-            if tags.find("Latitude/Degree") == None:
+            if tag.find("Latitude/Degree") == None:
                 #print(tags.find("Latitude/Degree"))
                 return("Error, 'Degree' tag not exists")
             else:
@@ -36,11 +36,11 @@ def parseXML(xml_string):
                     dico["Latitude"][0] = elem.text
                     
         #Direction
-        if tags.find("Latitude") == None:
+        if tag.find("Latitude") == None:
             #print(tags.find("Latitude"))
             return ("Error, 'Latitude' tag not exists")
         else:
-            if tags.find("Latitude/Direction") == None:
+            if tag.find("Latitude/Direction") == None:
                 #print(tags.find("Latitude/Direction"))
                 return("Error, 'Direction' tag not exists")
             else:
@@ -50,11 +50,11 @@ def parseXML(xml_string):
 
         ######### Récupération de la longitude #########
         #Degree
-        if tags.find("Longitude") == None:
+        if tag.find("Longitude") == None:
             #print(tags.find("Longitude"))
             return ("Error, 'Longitude' tag not exists")
         else:
-            if tags.find("Longitude/Degree") == None:
+            if tag.find("Longitude/Degree") == None:
                 #print(tags.find("Longitude/Degree"))
                 return("Error, 'Degree' tag not exists")
             else:
@@ -62,11 +62,11 @@ def parseXML(xml_string):
                     dico["Longitude"][0] = elem.text
 
         #Direction
-        if tags.find("Longitude") == None:
+        if tag.find("Longitude") == None:
             #print(tags.find("Longitude"))
             return ("Error, 'Longitude' tag not exists")
         else:
-            if tags.find("Longitude/Direction") == None:
+            if tag.find("Longitude/Direction") == None:
                 #print(tags.find("Longitude/Direction"))
                 return("Error, 'Direction' tag not exists")
             else:
@@ -75,7 +75,7 @@ def parseXML(xml_string):
 
 
         ######### Récupération de l'altitude #########
-        if tags.find("Altitude") == None:
+        if tag.find("Altitude") == None:
             return("Error, 'Altitude' tag not exists")
         else:
             for elem in root.findall("./GNSSLocation/Altitude"):
@@ -83,7 +83,7 @@ def parseXML(xml_string):
             
 
         ######### Récupération de la speed #########
-        if tags.find("SpeedOverGround") == None:
+        if tag.find("SpeedOverGround") == None:
             return("Error, 'SpeedOverGround' tag not exists")
         else:
             for elem in root.findall("./GNSSLocation/SpeedOverGround"):
@@ -91,7 +91,7 @@ def parseXML(xml_string):
 
 
         ######### Récupération du time #########
-        if tags.find("Time") == None:
+        if tag.find("Time") == None:
             return("Error, 'Time' tag not exists")
         else:
             for elem in root.findall("./GNSSLocation/Time"):
@@ -99,7 +99,7 @@ def parseXML(xml_string):
 
 
         ######### Récupération de la date #########
-        if tags.find("Date") == None:
+        if tag.find("Date") == None:
             return("Error, 'Date' tag not exists")
         else:
             for elem in root.findall("./GNSSLocation/Date"):
