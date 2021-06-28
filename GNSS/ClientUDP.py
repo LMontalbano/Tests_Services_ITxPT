@@ -72,6 +72,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 s.bind(client_adress)
 
+
 while True:
     logging.basicConfig(filename="std.log", 
                     format='%(asctime)s %(message)s', 
@@ -85,15 +86,42 @@ while True:
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     
-    data, address = s.recvfrom(4096)
+    s.settimeout(t)
+    try:
+        data, address = s.recvfrom(4096)
     #print(data)
     #print(parseXML(data.decode()))
-    
-    logger.info(parseXML(data.decode()))
+    except socket.timeout as e:
+        err = e.args[0]
+        if err == 'timed out':
+            time.sleep(1)
+            logging.basicConfig(filename="std.log", 
+                    format='%(asctime)s %(message)s', 
+                    filemode='w')
+            logger.error("recvfrom() timed out Error")
+            logger.removeHandler(handler)
+            continue
         
-    time.sleep(1)
-    logger.removeHandler(handler)
-    
+        else:
+            print (err)
+            logging.basicConfig(filename="std.log", 
+                    format='%(asctime)s %(message)s', 
+                    filemode='w')
+            logger.error(err)
+            logger.removeHandler(handler)
+            continue
+        
+    try:
+        logger.info(parseXML(data.decode()))
+            
+        time.sleep(1)
+        logger.removeHandler(handler)
+        
+    except ET.ParseError:
+        logging.basicConfig(filename="std.log", 
+                    format='%(asctime)s %(message)s', 
+                    filemode='w')
+        logger.error("Parse Error")
     
     
     
