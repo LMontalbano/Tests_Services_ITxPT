@@ -32,7 +32,10 @@ def parseXML(xml_string):
                 return "Error, 'Degree' tag not exists"
             else:
                 for elem in root.findall("./GNSSLocation/Latitude/Degree"):
-                    dico["Latitude"][0] = elem.text
+                    if elem.text is not None:
+                        dico["Latitude"][0] = elem.text
+                    else:
+                        return "Error, 'Degree' tag is empty"
 
         # Direction
         if tag.find("Latitude") is None:
@@ -44,7 +47,11 @@ def parseXML(xml_string):
                 return "Error, 'Direction' tag not exists"
             else:
                 for elem in root.findall("./GNSSLocation/Latitude/Direction"):
-                    dico["Latitude"][1] = elem.text
+                    if elem.text is not None:
+                        dico["Latitude"][1] = elem.text
+                    else:
+                        return "Error, 'Direction' tag is empty"
+                    
 
         ######### Récupération de la longitude #########
         # Degree
@@ -57,7 +64,10 @@ def parseXML(xml_string):
                 return "Error, 'Degree' tag not exists"
             else:
                 for elem in root.findall("./GNSSLocation/Longitude/Degree"):
-                    dico["Longitude"][0] = elem.text
+                    if elem.text is not None:
+                        dico["Longitude"][0] = elem.text
+                    else:
+                        return "Error, 'Degree' tag is empty"
 
         # Direction
         if tag.find("Longitude") is None:
@@ -69,35 +79,51 @@ def parseXML(xml_string):
                 return "Error, 'Direction' tag not exists"
             else:
                 for elem in root.findall("./GNSSLocation/Longitude/Direction"):
-                    dico["Longitude"][1] = elem.text
+                    if elem.text is not None:
+                        dico["Longitude"][1] = elem.text
+                    else:
+                        return "Error, 'Direction' tag is empty"
 
         ######### Récupération de l'altitude #########
         if tag.find("Altitude") is None:
             return "Error, 'Altitude' tag not exists"
         else:
             for elem in root.findall("./GNSSLocation/Altitude"):
-                dico["Altitude"] = elem.text
+                if elem.text is not None:
+                    dico["Altitude"] = elem.text
+                else:
+                    return "Error, 'Altitude' tag is empty"
 
         ######### Récupération de la speed #########
         if tag.find("SpeedOverGround") is None:
             return "Error, 'SpeedOverGround' tag not exists"
         else:
             for elem in root.findall("./GNSSLocation/SpeedOverGround"):
-                dico["SpeedOverGround"] = elem.text
+                if elem.text is not None:
+                    dico["SpeedOverGround"] = elem.text
+                else:
+                    return "Error, 'SpeedOverGround' tag is empty"
+    
 
         ######### Récupération du time #########
         if tag.find("Time") is None:
             return "Error, 'Time' tag not exists"
         else:
             for elem in root.findall("./GNSSLocation/Time"):
-                dico["Time"] = elem.text
+                if elem.text is not None:
+                    dico["Time"] = elem.text
+                else:
+                    return "Error, 'Time' tag is empty"
 
         ######### Récupération de la date #########
         if tag.find("Date") is None:
             return "Error, 'Date' tag not exists"
         else:
             for elem in root.findall("./GNSSLocation/Date"):
-                dico["Date"] = elem.text
+                if elem.text is not None:
+                    dico["Date"] = elem.text
+                else:
+                    return "Error, 'Date' tag is empty"
 
     return dico
 
