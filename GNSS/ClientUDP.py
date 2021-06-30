@@ -3,6 +3,7 @@ import time
 import xml.etree.ElementTree as ET
 import logging
 import sys
+import struct
 
 
 def parseXML(xml_string):
@@ -128,16 +129,21 @@ def parseXML(xml_string):
     return dico
 
 
-IP_CLI = '127.0.0.1'
-PORT_CLI = 5004
-client_address = (IP_CLI, PORT_CLI)
-
 t = 1
+
+GRP_MULTI = '127.0.0.1'
+PORT = 5004
+server_address = ('', PORT)
 
 # Create socket for server
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-s.bind(client_address)
+s.bind(server_address)
+
+group = socket.inet_aton(GRP_MULTI)
+mreq = struct.pack('4sL', group, socket.INADDR_ANY)
+s.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+
 
 while True:
     logging.basicConfig(filename="std.log",
