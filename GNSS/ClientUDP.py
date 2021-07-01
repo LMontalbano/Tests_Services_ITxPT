@@ -1,3 +1,4 @@
+from AVMS.ClientAVMS import ADDRESS
 import socket
 import time
 import xml.etree.ElementTree as ET
@@ -133,7 +134,8 @@ t = 1
 
 GRP_MULTI = '127.0.0.1'
 PORT = 5004
-server_address = ('', PORT)
+ADDRESS_SERV = '127.0.0.1'
+server_address = (ADDRESS_SERV, PORT)
 
 # Create socket for server
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
