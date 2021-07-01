@@ -1,14 +1,17 @@
 import socket
+import requests
+import http.client
 
+
+
+###################Client##################
 TCP_IP = "127.0.0.1"
-TCP_PORT = 9000
+TCP_PORT = 8000
 
-BUFFER_SIZE = 4096
+with open('xml_RunMonitoring_Sub.xml', "rb") as file:
+        rxml = file.read(4096)
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+connection = http.client.HTTPConnection('127.0.0.1', 8000)
+print(connection)
 
-s.connect((TCP_IP, TCP_PORT))
-data = s.recv(BUFFER_SIZE)
-s.close()
-
-print("received data:", data)
+#r = requests.post("192.168.0.10", data = rxml)
