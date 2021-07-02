@@ -134,17 +134,31 @@ t = 1
 
 GRP_MULTI = '127.0.0.1'
 PORT = 5004
-ADDRESS_SERV = '127.0.0.1'
-server_address = (ADDRESS_SERV, PORT)
+INTERFACE_NAME = 'Réseau EMBARQUE'
+IP_MACHINE = '127.0.0.1'
+IPMULTI_PORT = (GRP_MULTI, PORT)
 
-# Create socket for server
+# Création du socket UDP
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-s.bind(server_address)
+# Autoriser d'autres sockets à lier ce port aussi
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-group = socket.inet_aton(GRP_MULTI)
-mreq = struct.pack('4sL', group, socket.INADDR_ANY)
-s.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+# Rejoindre explicitement le groupe multicast sur l'interface spécifiée
+s.setsockopt(socket.SOL_IP, socket.IP_ADD_MEMBERSHIP,
+             socket.inet_aton(GRP_MULTI) + socket.inet_aton(IP_MACHINE))
+
+# Lier le socket pour récupérer les données
+s.bind(IPMULTI_PORT)
+
+
+###################################################################
+#s.bind(server_address)
+
+#group = socket.inet_aton(GRP_MULTI)
+#mreq = struct.pack('4sL', group, socket.INADDR_ANY)
+#s.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+####################################################################
 
 
 while True:
