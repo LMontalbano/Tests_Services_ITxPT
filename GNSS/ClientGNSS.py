@@ -1,10 +1,8 @@
-from AVMS.ClientAVMS import ADDRESS
 import socket
 import time
 import xml.etree.ElementTree as ET
 import logging
 import sys
-import struct
 
 
 def parseXML(xml_string):
@@ -134,9 +132,8 @@ t = 1
 
 GRP_MULTI = '127.0.0.1'
 PORT = 5004
-INTERFACE_NAME = 'Réseau EMBARQUE'
-IP_MACHINE = '127.0.0.1'
-IPMULTI_PORT = (GRP_MULTI, PORT)
+IP_INTERFACE = '127.0.0.1'
+IP_INTERFACE_PORT = (IP_INTERFACE, PORT)
 
 # Création du socket UDP
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -146,20 +143,13 @@ s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 # Rejoindre explicitement le groupe multicast sur l'interface spécifiée
 s.setsockopt(socket.SOL_IP, socket.IP_ADD_MEMBERSHIP,
-             socket.inet_aton(GRP_MULTI) + socket.inet_aton(IP_MACHINE))
+             socket.inet_aton(GRP_MULTI) + socket.inet_aton(IP_INTERFACE))
 
 # Lier le socket pour récupérer les données
-s.bind(IPMULTI_PORT)
+s.bind(IP_INTERFACE_PORT)
 
-
-###################################################################
-#s.bind(server_address)
-
-#group = socket.inet_aton(GRP_MULTI)
-#mreq = struct.pack('4sL', group, socket.INADDR_ANY)
-#s.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
-####################################################################
-
+#dataa, addresss = s.recvfrom(4096)
+#print(dataa)
 
 while True:
     logging.basicConfig(filename="std.log",
