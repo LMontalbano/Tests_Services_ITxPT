@@ -17,6 +17,6 @@
       <JourneyPatternRef>9311</JourneyPatternRef>
       <VehicleJourneyRef>930111</VehicleJourneyRef>
     </NextRunInfo>
-    <MonitoredRunStateNote>Note</MonitoredRunStateNote>
+    <!--<MonitoredRunStateNote>Note</MonitoredRunStateNote> -->
   </MonitoredRunState>
 </RunMonitoringDelivery>
