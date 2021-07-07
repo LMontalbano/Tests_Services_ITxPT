@@ -6,29 +6,33 @@ import sys
 
 
 def parseXML(xml_string):
-    # print(xml_string)
+    
+    """ Fonction pour parse un stream xml
+        Nom fonction: parseXML
+        Paramètre: xml_string, un flux xml
+        Return: un dico avec la les données du stream xml passer en paramètre"""
 
+    # Création du tree et récupération de la root
     tree = ET.ElementTree(ET.fromstring(xml_string))
-    # print (tree)
     root = tree.getroot()
-    # print(root)
-
-    # permet de faire un print du fichier xml
-    # ET.dump(tree)
+    
 
     # Création de notre dico
     dico = {"Latitude": ["", ""], "Longitude": ["", ""], "Altitude": "", "SpeedOverGround": "", "Time": "", "Date": ""}
 
+
     for tag in root.findall("./GNSSLocation"):
 
         ######### Récupération de la latitude #########
-        # Degree
+        
+        ## Degree ##
+        # Vérification si les balises "Latitude" et "Degree" exists et si elles ne sont pas vident
+        # Si il n'y a pas d'erreurs, ajout de la donnée dans le dico
         if tag.find("Latitude") is None:
-            # print(tags.find("Latitude"))
             return "Error, 'Latitude' tag not exists"
         else:
             if tag.find("Latitude/Degree") is None:
-                # print(tags.find("Latitude/Degree"))
+                
                 return "Error, 'Degree' tag not exists"
             else:
                 for elem in root.findall("./GNSSLocation/Latitude/Degree"):
@@ -37,13 +41,14 @@ def parseXML(xml_string):
                     else:
                         return "Error, 'Degree' tag is empty"
 
-        # Direction
+        ## Direction ##
+        # Vérification de l'existance des balises "Latitude" et "Direction" et si elles ne sont pas vident
+        # Si il n'y a pas d'erreurs, ajout de la donnée dans le dico
         if tag.find("Latitude") is None:
-            # print(tags.find("Latitude"))
             return "Error, 'Latitude' tag not exists"
         else:
             if tag.find("Latitude/Direction") is None:
-                # print(tags.find("Latitude/Direction"))
+                
                 return "Error, 'Direction' tag not exists"
             else:
                 for elem in root.findall("./GNSSLocation/Latitude/Direction"):
@@ -54,13 +59,15 @@ def parseXML(xml_string):
                     
 
         ######### Récupération de la longitude #########
-        # Degree
+        
+        ## Degree ##
+        # Vérification de l'existance des balises "Longitude" et "Direction" et si elles ne sont pas vident
+        # Si il n'y a pas d'erreurs, ajout de la donnée dans le dico
         if tag.find("Longitude") is None:
-            # print(tags.find("Longitude"))
             return "Error, 'Longitude' tag not exists"
         else:
             if tag.find("Longitude/Degree") is None:
-                # print(tags.find("Longitude/Degree"))
+                
                 return "Error, 'Degree' tag not exists"
             else:
                 for elem in root.findall("./GNSSLocation/Longitude/Degree"):
@@ -69,13 +76,14 @@ def parseXML(xml_string):
                     else:
                         return "Error, 'Degree' tag is empty"
 
-        # Direction
+        ## Direction ##
+        # Vérification de l'existance des balises "Longitude" et "Direction" et si elles ne sont pas vident
+        # Si il n'y a pas d'erreurs, ajout de la donnée dans le dico
         if tag.find("Longitude") is None:
-            # print(tags.find("Longitude"))
             return "Error, 'Longitude' tag not exists"
         else:
             if tag.find("Longitude/Direction") is None:
-                # print(tags.find("Longitude/Direction"))
+                
                 return "Error, 'Direction' tag not exists"
             else:
                 for elem in root.findall("./GNSSLocation/Longitude/Direction"):
@@ -84,7 +92,11 @@ def parseXML(xml_string):
                     else:
                         return "Error, 'Direction' tag is empty"
 
+
         ######### Récupération de l'altitude #########
+        
+        # Vérification de l'existance de la balise "Altitude" et si elle n'est pas vide
+        # Si il n'y a pas d'erreurs, ajout de la donnée dans le dico
         if tag.find("Altitude") is None:
             return "Error, 'Altitude' tag not exists"
         else:
@@ -94,7 +106,11 @@ def parseXML(xml_string):
                 else:
                     return "Error, 'Altitude' tag is empty"
 
+
         ######### Récupération de la speed #########
+        
+        # Vérification de l'existance de la balise "SpeedOverGround" et si elle n'est pas vide
+        # Si il n'y a pas d'erreurs, ajout de la donnée dans le dico
         if tag.find("SpeedOverGround") is None:
             return "Error, 'SpeedOverGround' tag not exists"
         else:
@@ -105,7 +121,11 @@ def parseXML(xml_string):
                     return "Error, 'SpeedOverGround' tag is empty"
     
 
+
         ######### Récupération du time #########
+
+        # Vérification de l'existance de la balise "Time" et si elle n'est pas vide
+        # Si il n'y a pas d'erreurs, ajout de la donnée dans le dico
         if tag.find("Time") is None:
             return "Error, 'Time' tag not exists"
         else:
@@ -115,7 +135,11 @@ def parseXML(xml_string):
                 else:
                     return "Error, 'Time' tag is empty"
 
+
         ######### Récupération de la date #########
+        
+        # Vérification de l'existance de la balise "Date" et si elle n'est pas vide
+        # Si il n'y a pas d'erreurs, ajout de la donnée dans le dico
         if tag.find("Date") is None:
             return "Error, 'Date' tag not exists"
         else:
@@ -127,9 +151,10 @@ def parseXML(xml_string):
 
     return dico
 
-
+# temps d'attente en second avant de reprendre le programme (utilisée avec le time.sleep())
 t = 1
 
+# Initialisation des différentes address et port
 GRP_MULTI = '127.0.0.1'
 PORT = 5004
 IP_INTERFACE = '127.0.0.1'
@@ -141,46 +166,54 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 # Autoriser d'autres sockets à lier ce port aussi
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-# Rejoindre explicitement le groupe multicast sur l'interface spécifiée
+# Rejoindre le groupe multicast sur l'interface spécifiée
 s.setsockopt(socket.SOL_IP, socket.IP_ADD_MEMBERSHIP,
              socket.inet_aton(GRP_MULTI) + socket.inet_aton(IP_INTERFACE))
 
 # Lier le socket pour récupérer les données
 s.bind(IP_INTERFACE_PORT)
 
-#dataa, addresss = s.recvfrom(4096)
-#print(dataa)
 
 while True:
+    
+    # Configuration du logging
     logging.basicConfig(filename="std.log",
                         format='%(asctime)s %(message)s',
                         filemode='w')
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
 
+    # Création et configuration d'un handler
     handler = logging.StreamHandler(sys.stdout)
     handler.setLevel(logging.INFO)
     formatter = logging.Formatter('%(asctime)s - %(message)s')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
+    # Setup d'un timeout
     s.settimeout(t)
+    
     try:
+        # Récupération des données
         data, address = s.recvfrom(4096)
-    # print(data)
-    # print(parseXML(data.decode()))
+    
+    # Si on ne récupère pas de data au bout de t second
     except socket.timeout as e:
         err = e.args[0]
         if err == 'timed out':
-            time.sleep(1)
+            # Enregistrement de l'erreur dans le fichier std.log
             logging.basicConfig(filename="std.log",
                                 format='%(asctime)s %(message)s',
                                 filemode='w')
             logger.error("recvfrom() timed out Error")
             logger.removeHandler(handler)
+            
+            # Tempo de 1 sec avant de réessayer
+            time.sleep(t)
             continue
 
         else:
+            # Affichage de l'erreur et enregistrement de l'erreur dans le fichier std.log
             print(err)
             logging.basicConfig(filename="std.log",
                                 format='%(asctime)s %(message)s',
@@ -189,7 +222,9 @@ while True:
             logger.removeHandler(handler)
             continue
 
+    # Affichage de mes données triées et analysés
     logger.info(parseXML(data.decode()))
 
-    time.sleep(1)
+    # Tempo de t second avant de recommencer
+    time.sleep(t)
     logger.removeHandler(handler)
