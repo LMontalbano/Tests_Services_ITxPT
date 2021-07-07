@@ -38,7 +38,7 @@ with open('Sub_Unsub/PatternMonitoring_Sub.xml', "rb") as file:
 headers = {
         "Content-Length": "",
         "Accept-Encoding": "identity",
-        "Host": "192.168.0.10:8000",
+        "Host": "127.0.0.1:8000",
         "Content-Type": "text/xml"
     }
 
