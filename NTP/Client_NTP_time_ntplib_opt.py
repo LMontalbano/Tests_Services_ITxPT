@@ -10,7 +10,7 @@ def get_network_time(server='pool.ntp.org'):
     
     """ Fonction pour récupérer l'heure à partir d'un server NTP
         Nom fonction: get_network_time()
-        Paramètre de la fonction: server, un server NTP, par défaut 'pool.ntp.org'
+        Paramètre: server, un server NTP, par défaut 'pool.ntp.org'
         Return: une date sous la forme : 'Jour Mois NumJour Heure:Min:Sec Annee en UTC +0' """
     
     # Création d'un client via la librairie ntplib
@@ -39,7 +39,7 @@ if __name__ == "__main__":
         print('Please enter an NTP server: ')
         server = input()
         
-    # t en second car on l'utilise pour le time.sleep()
+    # Temps d'attente en second avant de reprendre le programme (utilisée avec le time.sleep())
     t = 1
     
     # Affichage du server NTP sur lequel le programme va récupérer l'heure
