@@ -5,7 +5,6 @@ import logging
 import socket
 
 
-# 
 def get_network_time(server='pool.ntp.org'):
     
     """ Fonction pour récupérer l'heure à partir d'un server NTP
