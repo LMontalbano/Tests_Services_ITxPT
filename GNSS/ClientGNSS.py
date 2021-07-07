@@ -10,7 +10,7 @@ def parseXML(xml_string):
     """ Fonction pour parse un stream xml
         Nom fonction: parseXML
         Paramètre: xml_string, un flux xml
-        Return: un dico avec la les données du stream xml passer en paramètre"""
+        Return: un dico avec les données du stream xml passer en paramètre"""
 
     # Création du tree et récupération de la root
     tree = ET.ElementTree(ET.fromstring(xml_string))
@@ -26,7 +26,7 @@ def parseXML(xml_string):
         ######### Récupération de la latitude #########
         
         ## Degree ##
-        # Vérification si les balises "Latitude" et "Degree" exists et si elles ne sont pas vident
+        # Vérification de l'existance des balises "Latitude" et "Degree" et si elles ne sont pas vident
         # Si il n'y a pas d'erreurs, ajout de la donnée dans le dico
         if tag.find("Latitude") is None:
             return "Error, 'Latitude' tag not exists"
@@ -61,7 +61,7 @@ def parseXML(xml_string):
         ######### Récupération de la longitude #########
         
         ## Degree ##
-        # Vérification de l'existance des balises "Longitude" et "Direction" et si elles ne sont pas vident
+        # Vérification de l'existance des balises "Longitude" et "Degree" et si elles ne sont pas vident
         # Si il n'y a pas d'erreurs, ajout de la donnée dans le dico
         if tag.find("Longitude") is None:
             return "Error, 'Longitude' tag not exists"
@@ -151,7 +151,7 @@ def parseXML(xml_string):
 
     return dico
 
-# temps d'attente en second avant de reprendre le programme (utilisée avec le time.sleep())
+# Temps d'attente en second avant de reprendre le programme (utilisée avec le time.sleep())
 t = 1
 
 # Initialisation des différentes address et port
