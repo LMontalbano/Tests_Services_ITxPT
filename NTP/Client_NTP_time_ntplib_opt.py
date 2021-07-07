@@ -56,7 +56,7 @@ if __name__ == "__main__":
             # time.sleep(t) permet de freeze le programme pendant une période t sec
             time.sleep(t)
             
-        # Si la fonctionne retourne une NTPException    
+        # Si la fonction retourne une NTPException    
         except ntplib.NTPException:
             print("Error NTPException")
             # Enregistrement de l'erreur dans le fichier std.log
@@ -65,7 +65,7 @@ if __name__ == "__main__":
                     filemode='w')
             logger.error("Error NTPException")
         
-        # Si la fonctionne retourne une socket.gaierror    
+        # Si la fonction retourne une socket.gaierror    
         except socket.gaierror:
             # Indique sur la console que la connexion au server NTP à fail et de rentrée une address NTP valide
             print("Failed address lookup")
