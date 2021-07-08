@@ -121,7 +121,6 @@ def parseXML(xml_string):
                     return "Error, 'SpeedOverGround' tag is empty"
     
 
-
         ######### Récupération du time #########
 
         # Vérification de l'existance de la balise "Time" et si elle n'est pas vide
