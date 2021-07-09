@@ -1,10 +1,15 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import xml.etree.ElementTree as ET
 
-lspr = ''
+
 
 # Création 
 class Server(BaseHTTPRequestHandler):
+
+    #lspr = ''
+
+    #def _set_lspr(self, lspr):
+        #self.lspr = lspr
 
     # Setup du headers
     def _set_headers(self):
@@ -45,15 +50,26 @@ class Server(BaseHTTPRequestHandler):
 
             
             if tag.tag == "VehicleMonitoringDelivery":
+                #print(self.lspr)
                 print("Dernier Arrêt : ")
                 lspr = last_stop_point_ref(post_data)
                 print(lspr)
+                #self._set_lspr(lspr)
+                #print(self.lspr)
                 print("\n")
+                #with open('lspr.txt', 'w') as f:
+                    #f.write(lspr)
+            
+            #lspr = ''
 
-            if tag.tag == "JourneyMonitoringDelivery" and lspr != '':
+            #with open('lspr.txt', 'r') as f:
+                #lspr = f.read()
+
+            if tag.tag == "JourneyMonitoringDelivery":
 
                 #print(post_data)
-                res = time_next_stop(post_data, lspr)
+                res = time_next_stopvdeux(post_data)
+                #print(res)
                 print("Heure d'arrivée prévue : ")
                 print(res[0])
                 print("Heure d'arrivée éstimé : ")
@@ -156,9 +172,8 @@ def time_next_stop(data, lspr):
             for elem in root.findall("./MonitoredJourney/OnwardCalls/OnwardCall"):
                 print("passage ici")
                 print(elem[0].text)
-                # elem[0] correspond à la balise StopPointRef
                 if elem[0].text != lspr:
-                    print(position)
+                    print(position) # elem[0] correspond à la balise StopPointRef
                     position +=1
                     print(position)
                 else:
@@ -166,10 +181,41 @@ def time_next_stop(data, lspr):
                         print("passage là")
                         for elem in root.findall("./MonitoredJourney/OnwardCalls"):
                             print("passage là aussi")
-                            # elem[2] correspond à la balise PlannedArrivalTime et elem[3] correspond à la balise ExpectedArrivalTime
-                            return (elem[position +1][2], elem[position +1][3])
+                            return (elem[position +1][2], elem[position +1][3]) # elem[2] correspond à la balise PlannedArrivalTime et elem[3] correspond à la balise ExpectedArrivalTime
                     else:
                         return "Error, lspr n'existe pas"
+
+def time_next_stopvdeux(data):
+    tree = ET.ElementTree(ET.fromstring(data))
+    root = tree.getroot()
+
+    #print(data)
+
+    #print("ici")
+    for tag in root.findall("."):
+        if tag.tag == "JourneyMonitoringDelivery":
+            #print("là")
+            order = ''
+            for elem in root.findall("./MonitoredJourney/MonitoredCall/Order"):
+                #print("là aussi")
+                order = elem.text
+            #print(order)
+
+
+            posi = 0
+            for elem in root.findall("./MonitoredJourney/OnwardCalls/OnwardCall"):
+                #print(elem.tag)
+                #print("for")
+                
+                #print(elem[1].text)
+                if int(elem[1].text) != int(order) + 1:
+                    print("pas le bon")
+                    
+                else:
+                    #print("else:" + elem[1].text + str(int(order)+1))
+                    if int(elem[1].text) == int(order) +1:
+                        #print("ça passe")
+                        return (elem[2].text, elem[3].text)
 
                     
 
