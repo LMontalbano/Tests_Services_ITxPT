@@ -218,7 +218,7 @@ def last_stop_point_ref(data):
 
 def time_next_stop(data):
     
-    """ Fonction qui permet de récupérer à la fois, l'heure d'arrivée prévue et celle éstimé en fonction de data passé en paramètre
+    """ Fonction qui permet de récupérer à la fois, l'heure d'arrivée prévue et celle éstimé, du prochain arrêt, en fonction de data passé en paramètre
         Nom fonction : time_next_stop
         Paramètre : data, un flux xml
         Return : un tuple qui a comme valeur en indice 0, l'heure théorique d’arrivée au prochaine arrêt (YYYY-MMDDThh:mm:ss+hh:mm) 
@@ -294,7 +294,7 @@ def run(server_class=HTTPServer, handler_class=Server, addr="localhost", port=80
     
     """ Fonction qui permet de run le serveur
         Paramètres: server_class: , handler_class: la class Server par défaut, addr: localhost par défaut, port: 8000 par défaut
-        Return: Ne retourne rien, permet de faire tourné le serveur"""
+        Return: Ne retourne rien, permet de faire tourner le serveur"""
     
     
     # Initialisation du server_address via les paramètre addr et port de la fonction    
