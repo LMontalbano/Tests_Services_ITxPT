@@ -4,12 +4,12 @@ import requests
 ADDRESS = "http://127.0.0.1"
 PORT = 9000
 
-### RunMonitoring ###
+
 # Récupération du contenue du fichier PassengerDoorCount_Sub.xml
 with open('Sub_Unsub/PassengerDoorCount_Sub.xml', "rb") as file:
     rxml0 = file.read(4096)
     
-### RunMonitoring ###
+
 # Récupération du contenue du fichier PassengerVehicleCount_Sub.xml
 with open('Sub_Unsub/PassengerVehicleCount_Sub.xml', "rb") as file:
     rxml1 = file.read(4096)
