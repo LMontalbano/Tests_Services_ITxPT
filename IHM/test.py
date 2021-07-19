@@ -14,11 +14,6 @@ fenetre.geometry("750x375")
 # on crée ensuite un objet Label() rattaché à fenetre pour afficher du texte non éditable
 # on profite du constructeur de l'objet pour définir un texte "Hello World" dans la foulée (on peut faire autrement)
 
-texte = Label ( fenetre, text="Hello World" )
-
-# l'objet Label() nommé texte est ensuite rendu visible dans fenetre grâce à pack()
-
-texte.pack()
 
 # pour finir, on lance la boucle programme
 
@@ -89,6 +84,33 @@ label.pack()
 
 Close_button = Button(fenetre, text= "Fermer", command = close, width=50, bg= 'red')
 Close_button.pack()
+
+
+
+
+menubar = Menu(fenetre)
+
+menu1 = Menu(menubar, tearoff=0)
+menu1.add_command(label="Créer", command=change_text_button_ntp)
+menu1.add_command(label="Editer", command=change_text_button_ntp)
+menu1.add_separator()
+menu1.add_command(label="Quitter", command=fenetre.quit)
+menubar.add_cascade(label="Fichier", menu=menu1)
+
+menu2 = Menu(menubar, tearoff=0)
+menu2.add_command(label="Couper", command=change_text_button_ntp)
+menu2.add_command(label="Copier", command=change_text_button_ntp)
+menu2.add_command(label="Coller", command=change_text_button_ntp)
+menubar.add_cascade(label="Editer", menu=menu2)
+
+menu3 = Menu(menubar, tearoff=0)
+menu3.add_command(label="A propos", command=change_text_button_ntp)
+menubar.add_cascade(label="Aide", menu=menu3)
+
+fenetre.config(menu=menubar)
+
+
+
 
 # pour finir, on lance la boucle programme
 fenetre.mainloop()
