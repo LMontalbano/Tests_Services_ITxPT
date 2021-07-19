@@ -206,7 +206,7 @@ def time_next_stop(data):
     """ Fonction qui permet de récupérer à la fois, l'heure d'arrivée prévue et celle éstimé, du prochain arrêt, en fonction de data passé en paramètre
         Nom fonction : time_next_stop
         Paramètre : data, un flux xml
-        Return : un tuple qui a comme valeur en indice 0, l'heure théorique d’arrivée au prochaine arrêt (YYYY-MMDDThh:mm:ss+hh:mm) 
+        Return : un tuple qui a comme valeur en indice 0, l'heure théorique d’arrivée au prochaine arrêt (YYYY-MMDDThh:mm:ss+hh:mm)
                  et en indice 1, l'heure applicable d’arrivée au prochaine arrêt (YYYY-MMDDThh:mm:ss+hh:mm) (théorique +avance/retard)"""
 
     tree = ET.ElementTree(ET.fromstring(data))
@@ -215,7 +215,6 @@ def time_next_stop(data):
     for tag in root.findall("."):
 
         if tag.tag == "JourneyMonitoringDelivery":
-            order = ''
 
             if tag.find("MonitoredJourney") is None:
                 return "Error, 'MonitoredJourney' tag not exists"
@@ -230,12 +229,12 @@ def time_next_stop(data):
 
                     else:
                         # Récupération du numéro Order du MonitoredCall
-                        for elem in root.findall("./MonitoredJourney/MonitoredCall/Order"):
+                        for orders in root.findall("./MonitoredJourney/MonitoredCall/Order"):
 
-                            if elem.text is None:
+                            if orders.text is None:
                                 return "Error, 'Order' tag is empty"
                             else:
-                                order = elem.text
+                                order = orders.text
 
                             if tag.find("MonitoredJourney/OnwardCalls") is None:
                                 return "Error, 'OnwardCalls' tag not exists"
@@ -253,13 +252,11 @@ def time_next_stop(data):
                                         else:
                                             if int(elem[1].text) == int(order) + 1:
 
-                                                if tag.find(
-                                                        "MonitoredJourney/OnwardCalls/OnwardCall/PlannedArrivalTime") is None:
+                                                if tag.find("MonitoredJourney/OnwardCalls/OnwardCall/PlannedArrivalTime") is None:
                                                     return "Error, 'PlannedArrivalTime' not exists"
 
                                                 else:
-                                                    if tag.find(
-                                                            "MonitoredJourney/OnwardCalls/OnwardCall/ExpectedArrivalTime") is None:
+                                                    if tag.find("MonitoredJourney/OnwardCalls/OnwardCall/ExpectedArrivalTime") is None:
                                                         return "Error, 'ExpectedArrivalTime' tag not exists"
 
                                                     else:
@@ -272,7 +269,7 @@ def time_next_stop(data):
                                                             if elem[3].text is None:
                                                                 return "Error, 'ExpectedArrivalTime' tag is empty"
                                                             else:
-                                                                return (elem[2].text, elem[3].text)
+                                                                return elem[2].text, elem[3].text
 
 
 def run(server_class=HTTPServer, handler_class=Server, addr="localhost", port=8000):

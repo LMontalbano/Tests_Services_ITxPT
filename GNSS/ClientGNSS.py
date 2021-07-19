@@ -6,7 +6,6 @@ import sys
 
 
 def parseXML(xml_string):
-    
     """ Fonction pour parse un stream xml
         Nom fonction: parseXML
         Paramètre: xml_string, un flux xml
@@ -15,16 +14,14 @@ def parseXML(xml_string):
     # Création du tree et récupération de la root
     tree = ET.ElementTree(ET.fromstring(xml_string))
     root = tree.getroot()
-    
 
     # Création de notre dico
     dico = {"Latitude": ["", ""], "Longitude": ["", ""], "Altitude": "", "SpeedOverGround": "", "Time": "", "Date": ""}
 
-
     for tag in root.findall("./GNSSLocation"):
 
         ######### Récupération de la latitude #########
-        
+
         ## Degree ##
         # Vérification de l'existance des balises "Latitude" et "Degree" et si elles ne sont pas vident
         # Si il n'y a pas d'erreurs, ajout de la donnée dans le dico
@@ -32,7 +29,7 @@ def parseXML(xml_string):
             return "Error, 'Latitude' tag not exists"
         else:
             if tag.find("Latitude/Degree") is None:
-                
+
                 return "Error, 'Degree' tag not exists"
             else:
                 for elem in root.findall("./GNSSLocation/Latitude/Degree"):
@@ -48,7 +45,7 @@ def parseXML(xml_string):
             return "Error, 'Latitude' tag not exists"
         else:
             if tag.find("Latitude/Direction") is None:
-                
+
                 return "Error, 'Direction' tag not exists"
             else:
                 for elem in root.findall("./GNSSLocation/Latitude/Direction"):
@@ -56,10 +53,9 @@ def parseXML(xml_string):
                         dico["Latitude"][1] = elem.text
                     else:
                         return "Error, 'Direction' tag is empty"
-                    
 
         ######### Récupération de la longitude #########
-        
+
         ## Degree ##
         # Vérification de l'existance des balises "Longitude" et "Degree" et si elles ne sont pas vident
         # Si il n'y a pas d'erreurs, ajout de la donnée dans le dico
@@ -67,7 +63,7 @@ def parseXML(xml_string):
             return "Error, 'Longitude' tag not exists"
         else:
             if tag.find("Longitude/Degree") is None:
-                
+
                 return "Error, 'Degree' tag not exists"
             else:
                 for elem in root.findall("./GNSSLocation/Longitude/Degree"):
@@ -83,7 +79,7 @@ def parseXML(xml_string):
             return "Error, 'Longitude' tag not exists"
         else:
             if tag.find("Longitude/Direction") is None:
-                
+
                 return "Error, 'Direction' tag not exists"
             else:
                 for elem in root.findall("./GNSSLocation/Longitude/Direction"):
@@ -92,9 +88,8 @@ def parseXML(xml_string):
                     else:
                         return "Error, 'Direction' tag is empty"
 
-
         ######### Récupération de l'altitude #########
-        
+
         # Vérification de l'existance de la balise "Altitude" et si elle n'est pas vide
         # Si il n'y a pas d'erreurs, ajout de la donnée dans le dico
         if tag.find("Altitude") is None:
@@ -106,9 +101,8 @@ def parseXML(xml_string):
                 else:
                     return "Error, 'Altitude' tag is empty"
 
-
         ######### Récupération de la speed #########
-        
+
         # Vérification de l'existance de la balise "SpeedOverGround" et si elle n'est pas vide
         # Si il n'y a pas d'erreurs, ajout de la donnée dans le dico
         if tag.find("SpeedOverGround") is None:
@@ -119,7 +113,6 @@ def parseXML(xml_string):
                     dico["SpeedOverGround"] = elem.text
                 else:
                     return "Error, 'SpeedOverGround' tag is empty"
-    
 
         ######### Récupération du time #########
 
@@ -134,9 +127,8 @@ def parseXML(xml_string):
                 else:
                     return "Error, 'Time' tag is empty"
 
-
         ######### Récupération de la date #########
-        
+
         # Vérification de l'existance de la balise "Date" et si elle n'est pas vide
         # Si il n'y a pas d'erreurs, ajout de la donnée dans le dico
         if tag.find("Date") is None:
@@ -149,6 +141,7 @@ def parseXML(xml_string):
                     return "Error, 'Date' tag is empty"
 
     return dico
+
 
 # Temps d'attente en second avant de reprendre le programme (utilisée avec le time.sleep())
 t = 1
@@ -172,9 +165,8 @@ s.setsockopt(socket.SOL_IP, socket.IP_ADD_MEMBERSHIP,
 # Lier le socket pour récupérer les données
 s.bind(IP_INTERFACE_PORT)
 
-
 while True:
-    
+
     # Configuration du logging
     logging.basicConfig(filename="std.log",
                         format='%(asctime)s %(message)s',
@@ -191,11 +183,11 @@ while True:
 
     # Setup d'un timeout
     s.settimeout(t)
-    
+
     try:
         # Récupération des données
         data, address = s.recvfrom(4096)
-    
+
     # Si on ne récupère pas de data au bout de t second
     except socket.timeout as e:
         err = e.args[0]
@@ -206,7 +198,7 @@ while True:
                                 filemode='w')
             logger.error("recvfrom() timed out Error")
             logger.removeHandler(handler)
-            
+
             # Tempo de 1 sec avant de réessayer
             time.sleep(t)
             continue

@@ -33,9 +33,9 @@ class Server(BaseHTTPRequestHandler):
                 Paramètre: data, un flux xml
                 Return: un string avec le Client-IP-Address, le ReplyPort et le ReplyPath"""
 
-            ipaddress = ''
-            replyport = ''
-            replypath = ''
+            ip_address = ''
+            reply_port = ''
+            reply_path = ''
 
             if tag.find("Client-IP-Address") is None:
                 return "Error, 'Client-IP-Address' tag not exists"
@@ -44,7 +44,7 @@ class Server(BaseHTTPRequestHandler):
                     if ip.text is None:
                         return "Error, 'Client-IP-Address' tag is empty"
                     else:
-                        ipaddress = ip.text
+                        ip_address = ip.text
             if tag.find("ReplyPort") is None:
                 return "Error, 'ReplyPort' tag not exists"
             else:
@@ -52,7 +52,7 @@ class Server(BaseHTTPRequestHandler):
                     if port.text is None:
                         return "Error, 'ReplyPort' tag is empty"
                     else:
-                        replyport = port.text
+                        reply_port = port.text
             if tag.find("ReplyPath") is None:
                 return "Error, 'ReplyPath' tag not exists"
             else:
@@ -60,9 +60,9 @@ class Server(BaseHTTPRequestHandler):
                     if path.text is None:
                         return "Error, 'ReplyPath' tag is empty"
                     else:
-                        replypath = path.text
+                        reply_path = path.text
 
-            return ipaddress + ', ' + replyport + ', ' + replypath
+            return ip_address + ', ' + reply_port + ', ' + reply_path
 
         # Récupération de la taille des données
         content_length = int(self.headers['Content-Length'])
@@ -112,12 +112,12 @@ class Server(BaseHTTPRequestHandler):
                 sub = parse_sub_unsub()
 
                 # Récupération des lignes du Dict_Sub_Unsub
-                with open("Sub_Unsub/Dict_Sub_Usunb", "r") as file:
+                with open("Sub_Unsub/Dict_Sub_Unsub.txt", "r") as file:
                     lines = file.readlines()
                 with open("Sub_Unsub/Dict_Sub_Unsub.txt", "w") as file:
                     for line in lines:
-                        # Si la ligne n'est pas égale à l'élement que l'on veut supprimmer on la réécrie
-                        # (ce qui permet de réécrire toute les lignes sauf celle que l'on veut supprimmer
+                        # Si la ligne n'est pas égale à l'élement que l'on veut supprimer on la réécrit
+                        # (ce qui permet de réécrire toute les lignes sauf celle que l'on veut supprimer
                         if line.strip("\n") != sub:
                             file.write(line)
 
