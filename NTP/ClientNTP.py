@@ -76,9 +76,3 @@ if __name__ == "__main__":
                     format='%(asctime)s %(message)s', 
                     filemode='w')
             logger.warning("Failed address lookup")
-            
-               
-            
-            
-            
-            

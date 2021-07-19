@@ -86,7 +86,7 @@ class Server(BaseHTTPRequestHandler):
                     with open('Sub_Unsub/Dict_Sub_Unsub.txt', "w") as sub_file:
                         sub_file.write(sub + "\n")
 
-                with open('Send_XML/reponse200OK.xml', "r") as a_file:
+                with open('Reponse_XML/reponse200OK.xml', "r") as a_file:
                     xml_to_send0 = a_file.read(4096)
                 with open('ExempleXML/PassengerVehicleCountDelivery.xml', "r") as d_file:
                     xml_to_send1 = d_file.read(4096)
@@ -121,7 +121,7 @@ class Server(BaseHTTPRequestHandler):
                         if line.strip("\n") != sub:
                             file.write(line)
 
-                with open('Send_XML/reponse_Unsub.xml', 'r') as file:
+                with open('Reponse_XML/reponse_Unsub.xml', 'r') as file:
                     xml_unsub = file.read(4096)
 
                 xml_unsub = eval(xml_unsub)
