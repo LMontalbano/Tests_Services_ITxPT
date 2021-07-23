@@ -24,8 +24,7 @@ def get_network_time(ntp_server='pool.ntp.org'):
     return time.ctime(ts)
 
 
-if __name__ == "__main__":
-
+if __name__ == '__main__':
     # Récupération du server NTP passer en argument
     if len(sys.argv[1:]) == 1:
         server = sys.argv[1:][0]
