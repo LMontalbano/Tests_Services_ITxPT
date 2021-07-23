@@ -68,13 +68,18 @@ class Server(BaseHTTPRequestHandler):
             if tag.tag == "JourneyMonitoringDelivery":
                 # Execution de la fonction time_next_stop sur la data récupéré
                 res = time_next_stop(post_data)
-                print("Heure d'arrivée prévue : ")
-                # Affichage sur la console de l'heure d'arrivée prévue
-                print(res[0])
-                print("Heure d'arrivée éstimé : ")
-                # Affichage sur la console de l'heure d'arrivée éstimé
-                print(res[1])
-                print("\n")
+                # Si la longueur de res est supérieur à deux cela veut dire que time_next_stop retourne un message d'erreur
+                if len(res) > 2:
+                    print("Heure d'arrivée : ")
+                    print(res)
+                else:
+                    print("Heure d'arrivée prévue : ")
+                    # Affichage sur la console de l'heure d'arrivée prévue
+                    print(res[0])
+                    print("Heure d'arrivée éstimé : ")
+                    # Affichage sur la console de l'heure d'arrivée éstimé
+                    print(res[1])
+                    print("\n")
 
 
 def driver_id(data):
