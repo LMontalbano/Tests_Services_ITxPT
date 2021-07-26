@@ -21,7 +21,6 @@ def close():
     fenetre.destroy()
 
 
-
 def ntp():
     run_ntppp()
 
@@ -118,13 +117,9 @@ def run_ntppp():
         x = 3
         while i < x:
             i += 1
-            fenetre.after(1000, run_ntp(server='pool.ntp.org'))
+            fenetre.after(1000, run_ntp(server='10.15.2.13'))
 
         fenetre.mainloop()
-
-
-def close_ntp():
-    os.system(close)
 
 
 def gnss():
