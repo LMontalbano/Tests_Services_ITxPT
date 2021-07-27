@@ -143,80 +143,79 @@ def parseXML(xml_string):
     return dico
 
 
-def main_gnss():
+def main_gnss(server):
     # Temps d'attente en second avant de reprendre le programme (utilisée avec le time.sleep())
     t = 1
 
     # Initialisation des différentes address et port
     GRP_MULTI = '127.0.0.1'
     PORT = 5004
-    IP_INTERFACE = '127.0.0.1'
+    IP_INTERFACE = server
     IP_INTERFACE_PORT = (IP_INTERFACE, PORT)
 
     # Création du socket UDP
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     # Autoriser d'autres sockets à lier ce port aussi
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    # s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
     # Rejoindre le groupe multicast sur l'interface spécifiée
-    s.setsockopt(socket.SOL_IP, socket.IP_ADD_MEMBERSHIP,
-                 socket.inet_aton(GRP_MULTI) + socket.inet_aton(IP_INTERFACE))
+    #s.setsockopt(socket.SOL_IP, socket.IP_ADD_MEMBERSHIP,
+                # socket.inet_aton(GRP_MULTI) + socket.inet_aton(IP_INTERFACE))
 
     # Lier le socket pour récupérer les données
     s.bind(IP_INTERFACE_PORT)
 
-    while True:
 
-        # Configuration du logging
-        logging.basicConfig(filename="std.log",
-                            format='%(asctime)s %(message)s',
-                            filemode='w')
-        logger = logging.getLogger()
-        logger.setLevel(logging.INFO)
+    # Configuration du logging
+    logging.basicConfig(filename="std.log",
+                        format='%(asctime)s %(message)s',
+                        filemode='w')
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
 
-        # Création et configuration d'un handler
-        handler = logging.StreamHandler(sys.stdout)
-        handler.setLevel(logging.INFO)
-        formatter = logging.Formatter('%(asctime)s - %(message)s')
-        handler.setFormatter(formatter)
-        logger.addHandler(handler)
+    # Création et configuration d'un handler
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
 
-        # Setup d'un timeout
-        s.settimeout(t)
+    # Setup d'un timeout
+    s.settimeout(t)
 
-        try:
-            # Récupération des données
-            data, address = s.recvfrom(4096)
-
-        # Si on ne récupère pas de data au bout de t second
-        except socket.timeout as e:
-            err = e.args[0]
-            if err == 'timed out':
-                # Enregistrement de l'erreur dans le fichier std.log
-                logging.basicConfig(filename="std.log",
-                                    format='%(asctime)s %(message)s',
-                                    filemode='w')
-                logger.error("recvfrom() timed out Error")
-                logger.removeHandler(handler)
-
-                # Tempo de 1 sec avant de réessayer
-                time.sleep(t)
-                continue
-
-            else:
-                # Affichage de l'erreur et enregistrement de l'erreur dans le fichier std.log
-                print(err)
-                logging.basicConfig(filename="std.log",
-                                    format='%(asctime)s %(message)s',
-                                    filemode='w')
-                logger.error(err)
-                logger.removeHandler(handler)
-                continue
+    try:
+        # Récupération des données
+        data, address = s.recvfrom(4096)
 
         # Affichage de mes données triées et analysés
         logger.info(parseXML(data.decode()))
 
-        # Tempo de t second avant de recommencer
-        time.sleep(t)
-        logger.removeHandler(handler)
+    # Si on ne récupère pas de data au bout de t second
+    except socket.timeout as e:
+        err = e.args[0]
+        if err == 'timed out':
+            # Enregistrement de l'erreur dans le fichier std.log
+            logging.basicConfig(filename="std.log",
+                                format='%(asctime)s %(message)s',
+                                filemode='w')
+            logger.error("recvfrom() timed out Error")
+            logger.removeHandler(handler)
+
+            # Tempo de 1 sec avant de réessayer
+            time.sleep(t)
+
+        else:
+            # Affichage de l'erreur et enregistrement de l'erreur dans le fichier std.log
+            print(err)
+            logging.basicConfig(filename="std.log",
+                                format='%(asctime)s %(message)s',
+                                filemode='w')
+            logger.error(err)
+            logger.removeHandler(handler)
+
+
+    # Tempo de t second avant de recommencer
+    # time.sleep(t)
+    logger.removeHandler(handler)
+

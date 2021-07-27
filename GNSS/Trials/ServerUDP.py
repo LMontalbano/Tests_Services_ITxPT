@@ -22,5 +22,5 @@ while True:
         data = file.read(4096)
     s.sendto(data, client_adress)
     #print(data.decode())
-    
-    time.sleep(t)
+
+    # time.sleep(t)

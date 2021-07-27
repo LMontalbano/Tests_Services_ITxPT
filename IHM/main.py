@@ -1,4 +1,5 @@
 import threading
+import time
 from tkinter import *
 import tkinter as tk
 import sys
@@ -17,13 +18,13 @@ from Trials import ClientAVMS, ServerAVMS
 fenetre = Tk(className='Test_services_ITxPT')
 fenetre.geometry("750x375")
 
-address_label = Label(fenetre, text="Adresse IP : ")
+address_label = Label(fenetre, text="Adresse SAE : ")
 address_label.pack()
 
-server = tk.StringVar(value='pool.ntp.org')
+server = tk.StringVar(value='127.0.0.1')
 
 address_input = Entry(textvariable=server)
-address_input.pack()
+address_input.place(x=25, y=10)
 
 
 ######################################### Class utiles ###############################################
@@ -94,8 +95,61 @@ class ThreadNTP(threading.Thread):
                         print("Test Fail !!!")
 
         change_back_button_ntp()
+        address_input.config(state=NORMAL)
         t.config(state=DISABLED)
         NTP_button.config(state=NORMAL)
+        GNSS_button.config(state=NORMAL)
+        AVMS_button.config(state=NORMAL)
+        APC_button.config(state=NORMAL)
+        GLOBAL_button.config(state=NORMAL)
+        change_back_button_global()
+
+
+class ThreadGNSS(threading.Thread):
+    def __init__(self, thread_time):
+        threading.Thread.__init__(self)
+        self.thread_time = thread_time
+
+    def run(self):
+        sec = 0
+        num_lines = 0
+        if t.compare("end-1c", "!=", "1.0"):
+            print("\n")
+        print("########## Test GNSS ##########")
+        # Affichage du server NTP sur lequel le programme va récupérer l'heure
+        if server.get() == "":
+            print("Please enter a GNSS server")
+        else:
+            print('Server: ' + server.get())
+            while sec < self.thread_time:
+                fenetre.after(1000, ClientGNSS.main_gnss(server.get()))
+                sec += 1
+
+            err = 0
+            num_lines = sum(1 for _ in open("std.log"))
+            x = num_lines
+            num_lines -= 1
+            with open("std.log") as f:
+                while num_lines >= x - 5:
+                    f.seek(0)
+                    if 'Error' in f.readlines()[num_lines]:
+                        err += 1
+                    num_lines -= 1
+
+            if err < 1:
+                print("Test OK" + " " + u'\u2713')
+            else:
+                print("Test Fail !!!")
+
+        change_back_button_gnss()
+        address_input.config(state=NORMAL)
+        t.config(state=DISABLED)
+        NTP_button.config(state=NORMAL)
+        GNSS_button.config(state=NORMAL)
+        AVMS_button.config(state=NORMAL)
+        APC_button.config(state=NORMAL)
+        GLOBAL_button.config(state=NORMAL)
+        change_back_button_global()
 
 
 ########################################### NTP ##############################################
@@ -106,12 +160,17 @@ def ntp():
 
 
 def main_ntp():
+    address_input.config(state=DISABLED)
     t.config(state=NORMAL)
     NTP_button.config(state=DISABLED)
+    GNSS_button.config(state=DISABLED)
+    AVMS_button.config(state=DISABLED)
+    APC_button.config(state=DISABLED)
+    GLOBAL_button.config(state=DISABLED)
     # create instance of file like object
-    pl = PrintLogger(t)
+    p1 = PrintLogger(t)
     # replace sys.stdout with our object
-    sys.stdout = pl
+    sys.stdout = p1
 
     test_time = 5
     thread1 = ThreadNTP(test_time)
@@ -127,7 +186,7 @@ def change_back_button_ntp():
 
 
 NTP_button = Button(fenetre, text="Test NTP", command=ntp)
-NTP_button.pack()
+NTP_button.place(x=50, y=20)
 
 
 ##################################### GNSS ################################################
@@ -138,7 +197,21 @@ def gnss():
 
 
 def main_gnss():
-    ClientGNSS.main_gnss()
+    address_input.config(state=DISABLED)
+    t.config(state=NORMAL)
+    NTP_button.config(state=DISABLED)
+    GNSS_button.config(state=DISABLED)
+    AVMS_button.config(state=DISABLED)
+    APC_button.config(state=DISABLED)
+    GLOBAL_button.config(state=DISABLED)
+    # create instance of file like object
+    p2 = PrintLogger(t)
+    # replace sys.stdout with our object
+    sys.stdout = p2
+
+    test_time = 5
+    thread2 = ThreadGNSS(test_time)
+    thread2.start()
 
 
 def change_text_button_gnss():
@@ -150,7 +223,7 @@ def change_back_button_gnss():
 
 
 GNSS_button = Button(fenetre, text="Test GNSS", command=gnss)
-GNSS_button.pack()
+GNSS_button.place(x=150, y=20)
 
 
 ###################################### AVMS #################################################
@@ -175,7 +248,7 @@ def change_back_button_avms():
 
 
 AVMS_button = Button(fenetre, text="Test AVMS", command=avms)
-AVMS_button.pack()
+AVMS_button.place(x=250, y=20)
 
 
 ####################################### APC ##################################################
@@ -188,15 +261,32 @@ def main_apc():
     pass
 
 
-
-
-
 APC_button = Button(fenetre, text="Test APC", command=apc)
-APC_button.pack()
+APC_button.place(x=350, y=20)
+
+
+#################################### Tous les Tests #########################################
+
+def all_tests():
+    pass
+
+
+def change_text_button_global():
+    GLOBAL_button['text'] = 'Test GLOBAL en cours...'
+
+
+def change_back_button_global():
+    GLOBAL_button['text'] = 'Test GLOBAL'
+
+
+GLOBAL_button = Button(fenetre, text="Test GLOBAL", command=all_tests)
+GLOBAL_button.place(x=450, y=20)
 
 ###################################### Fenêtre principale ####################################
+
+
 t = tk.Text(state=DISABLED)
-t.pack()
+t.place(x=200, y=200)
 
 
 # fonction pour close la fenêtre
