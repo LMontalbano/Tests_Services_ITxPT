@@ -24,7 +24,7 @@ address_label.pack()
 server = tk.StringVar(value='127.0.0.1')
 
 address_input = Entry(textvariable=server)
-address_input.place(x=25, y=10)
+address_input.pack()
 
 
 ######################################### Class utiles ###############################################
@@ -77,7 +77,6 @@ class ThreadNTP(threading.Thread):
                             n += 1
 
                     sec += 1
-
             err = 0
             with open("std.log") as f:
                 if 'Failed' not in f.readlines()[num_lines - 1]:
@@ -90,9 +89,14 @@ class ThreadNTP(threading.Thread):
                         num_lines -= 1
 
                     if err < 1:
-                        print("Test OK" + " " + u'\u2713')
+                        print("Test NTP OK" + " " + u'\u2713')
+                        with open("std.log", "w") as std:
+                            std.write("Test NTP OK" + " " + u'\u2713')
+
                     else:
-                        print("Test Fail !!!")
+                        print("Test NTP Failed !!!")
+                        with open("std.log", "w") as std:
+                            std.write("Test NTP Failed !!!")
 
         change_back_button_ntp()
         address_input.config(state=NORMAL)
@@ -137,9 +141,114 @@ class ThreadGNSS(threading.Thread):
                     num_lines -= 1
 
             if err < 1:
-                print("Test OK" + " " + u'\u2713')
+                print("Test GNSS OK" + " " + u'\u2713')
             else:
-                print("Test Fail !!!")
+                print("Test GNSS Failed !!!")
+
+        change_back_button_gnss()
+        address_input.config(state=NORMAL)
+        t.config(state=DISABLED)
+        NTP_button.config(state=NORMAL)
+        GNSS_button.config(state=NORMAL)
+        AVMS_button.config(state=NORMAL)
+        APC_button.config(state=NORMAL)
+        GLOBAL_button.config(state=NORMAL)
+        change_back_button_global()
+
+
+class ThreadGlobal(threading.Thread):
+    def __init__(self, thread_time):
+        threading.Thread.__init__(self)
+        self.thread_time = thread_time
+
+    def run(self):
+        #### NTP ####
+        change_text_button_ntp()
+        sec = 0
+        num_lines = 0
+        if t.compare("end-1c", "!=", "1.0"):
+            print("\n")
+        print("########## Test NTP ##########")
+        # Affichage du server NTP sur lequel le programme va récupérer l'heure
+        if server.get() == "":
+            print("Please enter a NTP server")
+        else:
+            print('Server: ' + server.get())
+            while sec < self.thread_time:
+                fenetre.after(1000, ClientNTP.main_ntp(server.get()))
+                num_lines = sum(1 for _ in open("std.log"))
+                n = 0
+                fail = False
+                with open("std.log") as f:
+                    if num_lines <= 1:
+                        if 'Failed' in f.readline():
+                            sec = self.thread_time
+                            print('Please enter a valide NTP server')
+                            fail = True
+                    else:
+                        for line in f:
+                            if n == num_lines - 1:
+                                if 'Failed' in line:
+                                    sec = self.thread_time
+                                    print('Please enter a valide NTP server')
+                                    fail = True
+                            n += 1
+
+                    sec += 1
+            err = 0
+            with open("std.log") as f:
+                if 'Failed' not in f.readlines()[num_lines - 1]:
+                    x = num_lines
+                    num_lines -= 1
+                    while num_lines >= x - 5:
+                        f.seek(0)
+                        if 'Error' in f.readlines()[num_lines] and fail is False:
+                            err += 1
+                        num_lines -= 1
+
+                    if err < 1:
+                        print("Test NTP OK" + " " + u'\u2713')
+                        with open("std.log", "w") as std:
+                            std.write("Test NTP OK" + " " + u'\u2713')
+
+                    else:
+                        print("Test NTP Failed !!!")
+                        with open("std.log", "w") as std:
+                            std.write("Test NTP Failed !!!")
+
+        change_back_button_ntp()
+
+        #### GNSS ####
+        change_text_button_gnss()
+        sec = 0
+        num_lines = 0
+        if t.compare("end-1c", "!=", "1.0"):
+            print("\n")
+        print("########## Test GNSS ##########")
+        # Affichage du server NTP sur lequel le programme va récupérer l'heure
+        if server.get() == "":
+            print("Please enter a GNSS server")
+        else:
+            print('Server: ' + server.get())
+            while sec < self.thread_time:
+                fenetre.after(1000, ClientGNSS.main_gnss(server.get()))
+                sec += 1
+
+            err = 0
+            num_lines = sum(1 for _ in open("std.log"))
+            x = num_lines
+            num_lines -= 1
+            with open("std.log") as f:
+                while num_lines >= x - 5:
+                    f.seek(0)
+                    if 'Error' in f.readlines()[num_lines]:
+                        err += 1
+                    num_lines -= 1
+
+            if err < 1:
+                print("Test GNSS OK" + " " + u'\u2713')
+            else:
+                print("Test GNSS Failed !!!")
 
         change_back_button_gnss()
         address_input.config(state=NORMAL)
@@ -186,7 +295,7 @@ def change_back_button_ntp():
 
 
 NTP_button = Button(fenetre, text="Test NTP", command=ntp)
-NTP_button.place(x=50, y=20)
+NTP_button.pack()
 
 
 ##################################### GNSS ################################################
@@ -204,6 +313,7 @@ def main_gnss():
     AVMS_button.config(state=DISABLED)
     APC_button.config(state=DISABLED)
     GLOBAL_button.config(state=DISABLED)
+
     # create instance of file like object
     p2 = PrintLogger(t)
     # replace sys.stdout with our object
@@ -223,7 +333,7 @@ def change_back_button_gnss():
 
 
 GNSS_button = Button(fenetre, text="Test GNSS", command=gnss)
-GNSS_button.place(x=150, y=20)
+GNSS_button.pack()
 
 
 ###################################### AVMS #################################################
@@ -234,9 +344,22 @@ def avms():
 
 
 def main_avms():
-    # Faire un Thread ici pour pouvoir lancer en parallèle le Server et le Client
-    ServerAVMS.main_serv_avms()
-    ClientAVMS.main_cli_avms()
+    address_input.config(state=DISABLED)
+    t.config(state=NORMAL)
+    NTP_button.config(state=DISABLED)
+    GNSS_button.config(state=DISABLED)
+    AVMS_button.config(state=DISABLED)
+    APC_button.config(state=DISABLED)
+    GLOBAL_button.config(state=DISABLED)
+
+    # create instance of file like object
+    p3 = PrintLogger(t)
+    # replace sys.stdout with our object
+    sys.stdout = p3
+
+    test_time = 5
+    thread3 = ThreadGNSS(test_time)
+    thread3.start()
 
 
 def change_text_button_avms():
@@ -248,7 +371,7 @@ def change_back_button_avms():
 
 
 AVMS_button = Button(fenetre, text="Test AVMS", command=avms)
-AVMS_button.place(x=250, y=20)
+AVMS_button.pack()
 
 
 ####################################### APC ##################################################
@@ -262,13 +385,32 @@ def main_apc():
 
 
 APC_button = Button(fenetre, text="Test APC", command=apc)
-APC_button.place(x=350, y=20)
+APC_button.pack()
 
 
 #################################### Tous les Tests #########################################
 
 def all_tests():
-    pass
+    main_all_tests()
+
+
+def main_all_tests():
+    address_input.config(state=DISABLED)
+    t.config(state=NORMAL)
+    NTP_button.config(state=DISABLED)
+    GNSS_button.config(state=DISABLED)
+    AVMS_button.config(state=DISABLED)
+    APC_button.config(state=DISABLED)
+    GLOBAL_button.config(state=DISABLED)
+
+    # create instance of file like object
+    p_global = PrintLogger(t)
+    # replace sys.stdout with our object
+    sys.stdout = p_global
+
+    test_time = 5
+    thread_global = ThreadGlobal(test_time)
+    thread_global.start()
 
 
 def change_text_button_global():
@@ -280,13 +422,13 @@ def change_back_button_global():
 
 
 GLOBAL_button = Button(fenetre, text="Test GLOBAL", command=all_tests)
-GLOBAL_button.place(x=450, y=20)
+GLOBAL_button.pack()
 
 ###################################### Fenêtre principale ####################################
 
 
 t = tk.Text(state=DISABLED)
-t.place(x=200, y=200)
+t.pack()
 
 
 # fonction pour close la fenêtre
