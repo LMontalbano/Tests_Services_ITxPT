@@ -15,23 +15,23 @@ from Trials import ClientAVMS, ServerAVMS
 
 
 # Création de la fenêtre principale
-fenetre = Tk(className='Test_services_ITxPT')
+fenetre = Tk(className='test_services_ITxPT')
 fenetre.geometry("910x540")
 
 f1 = LabelFrame(fenetre)
-f1.grid(row=0, column=0, padx=50, pady=10)
+f1.grid(row=0, column=1, padx=50, pady=10)
 
 f2 = LabelFrame(fenetre)
-f2.grid(row=1, column=0, padx=50, pady=10)
+f2.grid(row=1, column=1, padx=50, pady=10)
 
 f3 = LabelFrame(fenetre)
-f3.grid(row=2, column=0, padx=50, pady=10)
+f3.grid(row=2, column=1, padx=50, pady=10)
 
 f4 = LabelFrame(fenetre)
-f4.grid(row=3, column=0, padx=100, pady=10)
+f4.grid(row=3, column=1, padx=100, pady=10)
 
-address_label = Label(f1, text="Adresse SAE : ")
-address_label.grid(column=1, row=1, padx=5, pady=5)
+address_label = Label(f1, text="SAE Address : ")
+address_label.grid(column=1, row=1)
 
 server = tk.StringVar(value='127.0.0.1')
 
@@ -46,6 +46,7 @@ class PrintLogger:  # create file like object
 
     def write(self, text):
         self.textbox.insert(tk.END, text)  # write text to textbox
+        self.textbox.see("end")
         # could also scroll to end of textbox here to make sure always visible
 
     def flush(self):  # needed for file like object
@@ -63,14 +64,11 @@ class ThreadNTP(threading.Thread):
         if t.compare("end-1c", "!=", "1.0"):
             print("\n")
         print("########## Test NTP ##########")
-        t.see("end")
         # Affichage du server NTP sur lequel le programme va récupérer l'heure
         if server.get() == "":
             print("Please enter a NTP server")
-            t.see("end")
         else:
             print('Server: ' + server.get())
-            t.see("end")
             while sec < self.thread_time:
                 fenetre.after(1000, ClientNTP.main_ntp(server.get()))
                 num_lines = sum(1 for _ in open("std.log"))
@@ -92,7 +90,6 @@ class ThreadNTP(threading.Thread):
                             n += 1
 
                     sec += 1
-                t.see("end")
             err = 0
             with open("std.log") as f:
                 if 'Failed' not in f.readlines()[num_lines - 1]:
@@ -109,7 +106,6 @@ class ThreadNTP(threading.Thread):
 
                     else:
                         print("Test NTP Failed !!!")
-            t.see("end")
 
         change_back_button_ntp()
         address_input.config(state=NORMAL)
@@ -132,18 +128,14 @@ class ThreadGNSS(threading.Thread):
         if t.compare("end-1c", "!=", "1.0"):
             print("\n")
         print("########## Test GNSS ##########")
-        t.see("end")
         # Affichage du server NTP sur lequel le programme va récupérer l'heure
         if server.get() == "":
             print("Please enter a GNSS server")
-            t.see("end")
         else:
             print('Server: ' + server.get())
-            t.see("end")
             while sec < self.thread_time:
                 fenetre.after(1000, ClientGNSS.main_gnss(server.get()))
                 sec += 1
-                t.see("end")
 
             err = 0
             num_lines = sum(1 for _ in open("std.log"))
@@ -160,7 +152,6 @@ class ThreadGNSS(threading.Thread):
                 print("Test GNSS OK" + " " + u'\u2713')
             else:
                 print("Test GNSS Failed !!!")
-        t.see("end")
 
         change_back_button_gnss()
         address_input.config(state=NORMAL)
@@ -188,20 +179,16 @@ class ThreadGlobal(threading.Thread):
         if t.compare("end-1c", "!=", "1.0"):
             print("\n")
         print("############### All Tests Started... ###############")
-        t.see("end")
         time.sleep(1)
 
         if t.compare("end-1c", "!=", "1.0"):
             print("\n")
         print("########## Test NTP ##########")
-        t.see("end")
         # Affichage du server NTP sur lequel le programme va récupérer l'heure
         if server.get() == "":
             print("Please enter a NTP server")
-            t.see("end")
         else:
             print('Server: ' + server.get())
-            t.see("end")
             while sec < self.thread_time:
                 fenetre.after(1000, ClientNTP.main_ntp(server.get()))
                 num_lines = sum(1 for _ in open("std.log"))
@@ -223,7 +210,6 @@ class ThreadGlobal(threading.Thread):
                             n += 1
 
                     sec += 1
-                t.see("end")
             err = 0
             with open("std.log") as f:
                 if 'Failed' not in f.readlines()[num_lines - 1]:
@@ -241,7 +227,6 @@ class ThreadGlobal(threading.Thread):
 
                     else:
                         print("Test NTP Failed !!!")
-            t.see("end")
         nb_test += 1
 
         change_back_button_ntp()
@@ -252,18 +237,14 @@ class ThreadGlobal(threading.Thread):
         if t.compare("end-1c", "!=", "1.0"):
             print("\n")
         print("########## Test GNSS ##########")
-        t.see("end")
         # Affichage du server NTP sur lequel le programme va récupérer l'heure
         if server.get() == "":
             print("Please enter a GNSS server")
-            t.see("end")
         else:
             print('Server: ' + server.get())
-            t.see("end")
             while sec < self.thread_time:
                 fenetre.after(1000, ClientGNSS.main_gnss(server.get()))
                 sec += 1
-                t.see("end")
             err = 0
             num_lines = sum(1 for _ in open("std.log"))
             x = num_lines
@@ -280,16 +261,12 @@ class ThreadGlobal(threading.Thread):
                 test_ok += 1
             else:
                 print("Test GNSS Failed !!!")
-        t.see("end")
         nb_test += 1
-
 
         time.sleep(1)
         print("\n")
         print("############### All Tests Done ###############")
         print("Passed Tests : " + str(test_ok) + "/" + str(nb_test))
-
-        t.see("end")
 
         change_back_button_gnss()
         address_input.config(state=NORMAL)
