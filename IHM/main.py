@@ -129,7 +129,6 @@ class ThreadGNSS(threading.Thread):
 
     def run(self):
         sec = 0
-        num_lines = 0
         if t.compare("end-1c", "!=", "1.0"):
             print("\n")
         print("########## Test GNSS ##########")
@@ -189,6 +188,7 @@ class ThreadGlobal(threading.Thread):
         print("\n")
         print("############### All Tests Started... ###############")
         t.see("end")
+        time.sleep(1)
 
         if t.compare("end-1c", "!=", "1.0"):
             print("\n")
@@ -248,7 +248,6 @@ class ThreadGlobal(threading.Thread):
         #### GNSS ####
         change_text_button_gnss()
         sec = 0
-        num_lines = 0
         if t.compare("end-1c", "!=", "1.0"):
             print("\n")
         print("########## Test GNSS ##########")
@@ -284,6 +283,7 @@ class ThreadGlobal(threading.Thread):
         nb_test += 1
 
 
+        time.sleep(1)
         print("\n")
         print("############### All Tests Done ###############")
         print("Passed Tests : " + str(test_ok) + "/" + str(nb_test))
