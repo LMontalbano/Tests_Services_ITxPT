@@ -163,10 +163,6 @@ def main_gnss(server):
     #s.setsockopt(socket.SOL_IP, socket.IP_ADD_MEMBERSHIP,
                 # socket.inet_aton(GRP_MULTI) + socket.inet_aton(IP_INTERFACE))
 
-    # Lier le socket pour récupérer les données
-    s.bind(IP_INTERFACE_PORT)
-
-
     # Configuration du logging
     logging.basicConfig(filename="std.log",
                         format='%(asctime)s %(message)s',
@@ -183,6 +179,13 @@ def main_gnss(server):
 
     # Setup d'un timeout
     s.settimeout(t)
+    # Lier le socket pour récupérer les données
+    try:
+        s.bind(IP_INTERFACE_PORT)
+    except OSError:
+        logger.error("OSError: [WinError 10049] L'adresse demandée n'est pas valide dans son contexte")
+        logger.removeHandler(handler)
+
 
     try:
         # Récupération des données
