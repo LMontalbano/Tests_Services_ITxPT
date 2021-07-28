@@ -185,7 +185,8 @@ class ThreadGlobal(threading.Thread):
         num_lines = 0
         test_ok = 0
         nb_test = 0
-        print("\n")
+        if t.compare("end-1c", "!=", "1.0"):
+            print("\n")
         print("############### All Tests Started... ###############")
         t.see("end")
         time.sleep(1)
