@@ -183,7 +183,7 @@ def main_gnss(server):
     try:
         s.bind(IP_INTERFACE_PORT)
     except OSError:
-        logger.error("OSError: [WinError 10049] L'adresse demandée n'est pas valide dans son contexte")
+        logger.error("OSError: [WinError 10049] The requested address is not valid in its context")
         logger.removeHandler(handler)
 
 
