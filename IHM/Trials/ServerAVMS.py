@@ -2,6 +2,8 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 import xml.etree.ElementTree as ET
 
 
+cancel = False
+
 # Création de l'objet Server
 class Server(BaseHTTPRequestHandler):
 
@@ -287,8 +289,10 @@ def run(server_class=HTTPServer, handler_class=Server, addr="localhost", port=80
     httpd = server_class(server_address, handler_class)
 
     print(f"Starting httpd server on {addr}:{port}")
-    httpd.serve_forever()
+
+    while not cancel:
+        httpd.handle_request()
 
 
-def main_serv_avms():
+def main_serv_avms(serv):
     run(addr='127.0.0.1', port=8000)
