@@ -8,39 +8,39 @@ def main_cli_avms():
 
     ### RunMonitoring ###
     # Récupération du contenue du fichier RunMonitoring_Sub.xml
-    with open('Sub_Unsub/RunMonitoring_Sub.xml', "rb") as file:
+    with open('../Trials/Sub_Unsub/RunMonitoring_Sub.xml', "rb") as file:
         rxml_0 = file.read(4096)
 
     ### PlannedPattern ###
     # Récupération du contenue du fichier PlannedPattern_Sub.xml
-    with open('Sub_Unsub/PlannedPattern_Sub.xml', "rb") as file:
+    with open('../Trials/Sub_Unsub/PlannedPattern_Sub.xml', "rb") as file:
         rxml_1 = file.read(4096)
 
     ### VehicleMonitoring ###
     # Récupération du contenue du fichier VehicleMonitoring.xml
-    with open('Sub_Unsub/VehicleMonitoring_Sub.xml', "rb") as file:
+    with open('../Trials/Sub_Unsub/VehicleMonitoring_Sub.xml', "rb") as file:
         rxml_2 = file.read(4096)
 
     ### JourneyMonitoring ###
     # Récupération du contenue du fichier JourneyMonitoring_Sub.xml
-    with open('Sub_Unsub/JourneyMonitoring_Sub.xml', "rb") as file:
+    with open('../Trials/Sub_Unsub/JourneyMonitoring_Sub.xml', "rb") as file:
         rxml_3 = file.read(4096)
 
     ### GeneralMessage ###
     # Récupération du contenue du fichier GeneralMessage_Sub.xml
-    with open('Sub_Unsub/GeneralMessage_Sub.xml', "rb") as file:
+    with open('../Trials/Sub_Unsub/GeneralMessage_Sub.xml', "rb") as file:
         rxml_4 = file.read(4096)
 
     ### PatternMonitoring ###
     # Récupération du contenue du fichier PatternMonitoring_Sub.xml
-    with open('Sub_Unsub/PatternMonitoring_Sub.xml', "rb") as file:
+    with open('../Trials/Sub_Unsub/PatternMonitoring_Sub.xml', "rb") as file:
         rxml_5 = file.read(4096)
 
     # Création d'un headers personnalisé
     headers = {
         "Content-Length": "",
         "Accept-Encoding": "identity",
-        "Host": "127.0.0.1:8000",
+        "Host": "http://127.0.0.1:8000",
         "Content-Type": "text/xml"
     }
 
