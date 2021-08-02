@@ -2,25 +2,31 @@ import threading
 import time
 from tkinter import *
 import tkinter as tk
+from PIL import ImageTk
+import webbrowser
 import sys
-import os
-# from NTP import ClientNTP
-from Trials import ClientNTP
-# from GNSS import ClientGNSS
-from Trials import ClientGNSS
-# from AVMS import ClientAVMS, ServerAVMS
-from Trials import ClientAVMS, ServerAVMS
-
-# from Trials import ServerAPC
-# from APC import ServerAPC
+import ClientNTP
+import ClientGNSS
+import ClientAVMS
+import ServerAVMS
 
 
 # Création de la fenêtre principale
 fenetre = Tk(className='test_services_ITxPT')
-fenetre.geometry("910x600")
+fenetre.geometry("910x650")
+
+f0 = LabelFrame(fenetre)
+f0.grid(row=0, column=1, padx=50, pady=10)
 
 f1 = LabelFrame(fenetre)
 f1.grid(row=0, column=1, padx=50, pady=10)
+
+f11 = LabelFrame(f1)
+f11.grid(row=0, column=1, padx=50, pady=10)
+
+f12 = LabelFrame(f1)
+f12.grid(row=0, column=2, padx=50, pady=10)
+
 
 f2 = LabelFrame(fenetre)
 f2.grid(row=1, column=1, padx=50, pady=10)
@@ -31,14 +37,35 @@ f3.grid(row=2, column=1, padx=50, pady=10)
 f4 = LabelFrame(fenetre)
 f4.grid(row=3, column=1, padx=100, pady=10)
 
-address_label = Label(f1, text="SAE Address : ")
-address_label.grid(column=1, row=1)
+img = ImageTk.PhotoImage(file="ressources/logo_Keolis_metropole_orleans.png")
+p1 = Label(f12, image=img)
+p1.config(width=190, height=50)
+p1.grid(column=3, row=1)
+
+address_label_SAE = Label(f11, text="SAE Address : ")
+address_label_SAE.grid(column=1, row=2)
 
 server = tk.StringVar(value='127.0.0.1')
 
-address_input = Entry(f1, textvariable=server)
-address_input.grid(column=1, row=2, padx=5, pady=5)
+address_input_SAE = Entry(f11, textvariable=server)
+address_input_SAE.grid(column=2, row=2, padx=5, pady=5)
 
+
+address_label_LOCAL = Label(f11, text="Local Address : ")
+address_label_LOCAL.grid(column=1, row=1)
+
+local = tk.StringVar(value='127.0.0.1')
+
+address_input_LOCAL = Entry(f11, textvariable=local)
+address_input_LOCAL.grid(column=2, row=1, padx=5, pady=5)
+
+
+def callback(url):
+    webbrowser.open_new(url)
+
+link1 = Label(fenetre, text="https://github.com/LMontalbano/Clients_Service_ITxPT", fg="blue", cursor="hand2")
+link1.grid(row=5, column=1)
+link1.bind("<Button-1>", lambda e: callback("https://github.com/LMontalbano/Clients_Service_ITxPT"))
 
 ###################################### Function utiles ###############################################
 def run_ntp(temps, tous):
@@ -101,7 +128,8 @@ def run_ntp(temps, tous):
 
                 else:
                     print("Test NTP Failed !!!")
-    nb_test += 1
+    if tous:
+        nb_test += 1
 
     res = nb_test, test_ok
 
@@ -127,7 +155,7 @@ def run_gnss(temps, tous, nb_test, test_ok):
     else:
         print('Server: ' + server.get())
         while sec < thread_time:
-            fenetre.after(1000, ClientGNSS.main_gnss(server.get()))
+            fenetre.after(1000, ClientGNSS.main_gnss(local.get()))
             sec += 1
 
         err = 0
@@ -147,18 +175,17 @@ def run_gnss(temps, tous, nb_test, test_ok):
                 test_ok += 1
         else:
             print("Test GNSS Failed !!!")
+
+
+    setup_end_gnss()
+
     if tous:
         nb_test += 1
 
-        time.sleep(1)
-        print("\n")
-        print("############### All Tests Done ###############")
-        print("Passed Tests : " + str(test_ok) + "/" + str(nb_test))
+    res = nb_test, test_ok
 
-    setup_end_gnss()
-    if tous:
-        change_back_button_global()
-    return nb_test, test_ok
+    return res
+
 
 
 def run_avms(temps, tous, nb_test, test_ok):
@@ -169,16 +196,45 @@ def run_avms(temps, tous, nb_test, test_ok):
     test_ok = test_ok
     if tous:
         change_text_button_avms()
+        ServerAVMS.tous = True
 
     if t.compare("end-1c", "!=", "1.0"):
         print("\n")
     print("########## Test AVMS ##########")
     print('Server: ' + server.get())
-    fenetre.after(1000, ServerAVMS.main_serv_avms(server.get()))
+    fenetre.after(1000, ServerAVMS.main_serv_avms(local.get()))
 
-    print("Test Finished")
+    err = 0
+    num_lines = sum(1 for _ in open("std.log"))
+    x = num_lines
+    num_lines -= 1
+    with open("std.log") as f:
+        while num_lines >= x - 5:
+            f.seek(0)
+            if 'Error' in f.readlines()[num_lines]:
+                err += 1
+            num_lines -= 1
 
+    if err < 1:
+        print("Test AVMS OK" + " " + u'\u2713')
+        if tous:
+            test_ok += 1
+    else:
+        print("Test AVMS Failed !!!")
+
+    if tous:
+        nb_test += 1
+
+        time.sleep(1)
+        print("\n")
+        print("############### All Tests Done ###############")
+        print("Passed Tests : " + str(test_ok) + "/" + str(nb_test))
+
+    ServerAVMS.tous = False
     setup_end_avms()
+    if tous:
+        change_back_button_global()
+    return nb_test, test_ok
 
 
 def run_apc():
@@ -263,9 +319,14 @@ class ThreadGlobal(threading.Thread):
         self.thread_time = thread_time
 
     def run(self):
-        res = run_ntp(temps=self.thread_time, tous=True)
+        res_ntp = run_ntp(temps=self.thread_time, tous=True)
         setup_start_gnss()
-        run_gnss(temps=self.thread_time, tous=True, nb_test=res[0], test_ok=res[1])
+        res_gnss = run_gnss(temps=self.thread_time, tous=True, nb_test=res_ntp[0], test_ok=res_ntp[1])
+        setup_start_avms()
+
+        thread10 = ThreadAVMSClient(self.thread_time)
+        thread10.start()
+        res_avms = run_avms(temps=self.thread_time, tous=True, nb_test=res_gnss[0], test_ok=res_gnss[1])
 
 
 ########################################### NTP ##############################################
@@ -276,7 +337,8 @@ def ntp():
 
 
 def setup_start_ntp():
-    address_input.config(state=DISABLED)
+    address_input_LOCAL.config(state=DISABLED)
+    address_input_SAE.config(state=DISABLED)
     t.config(state=NORMAL)
     NTP_button.config(state=DISABLED)
     GNSS_button.config(state=DISABLED)
@@ -288,7 +350,8 @@ def setup_start_ntp():
 
 def setup_end_ntp():
     change_back_button_ntp()
-    address_input.config(state=NORMAL)
+    address_input_LOCAL.config(state=NORMAL)
+    address_input_SAE.config(state=NORMAL)
     t.config(state=DISABLED)
     NTP_button.config(state=NORMAL)
     GNSS_button.config(state=NORMAL)
@@ -311,7 +374,7 @@ def main_ntp():
 
 
 def change_text_button_ntp():
-    NTP_button['text'] = 'Test NTP en cours...'
+    NTP_button['text'] = 'Test NTP in progress...'
 
 
 def change_back_button_ntp():
@@ -330,7 +393,8 @@ def gnss():
 
 
 def setup_start_gnss():
-    address_input.config(state=DISABLED)
+    address_input_LOCAL.config(state=DISABLED)
+    address_input_SAE.config(state=DISABLED)
     t.config(state=NORMAL)
     NTP_button.config(state=DISABLED)
     GNSS_button.config(state=DISABLED)
@@ -342,7 +406,8 @@ def setup_start_gnss():
 
 def setup_end_gnss():
     change_back_button_gnss()
-    address_input.config(state=NORMAL)
+    address_input_LOCAL.config(state=NORMAL)
+    address_input_SAE.config(state=NORMAL)
     t.config(state=DISABLED)
     NTP_button.config(state=NORMAL)
     GNSS_button.config(state=NORMAL)
@@ -365,7 +430,7 @@ def main_gnss():
 
 
 def change_text_button_gnss():
-    GNSS_button['text'] = 'Test GNSS en cours...'
+    GNSS_button['text'] = 'Test GNSS in progress...'
 
 
 def change_back_button_gnss():
@@ -384,7 +449,8 @@ def avms():
 
 
 def setup_start_avms():
-    address_input.config(state=DISABLED)
+    address_input_LOCAL.config(state=DISABLED)
+    address_input_SAE.config(state=DISABLED)
     t.config(state=NORMAL)
     NTP_button.config(state=DISABLED)
     GNSS_button.config(state=DISABLED)
@@ -393,10 +459,10 @@ def setup_start_avms():
     GLOBAL_button.config(state=DISABLED)
     Cancel_AVMS_button.config(state=NORMAL)
 
-
 def setup_end_avms():
     change_back_button_avms()
-    address_input.config(state=NORMAL)
+    address_input_LOCAL.config(state=NORMAL)
+    address_input_SAE.config(state=NORMAL)
     t.config(state=DISABLED)
     NTP_button.config(state=NORMAL)
     GNSS_button.config(state=NORMAL)
@@ -423,13 +489,13 @@ def server_avms():
 
     # os.system("start python Trials/ClientAVMS.py")
 
-    tes_time = 5
     thread10 = ThreadAVMSClient(test_time)
     thread10.start()
 
 
 def client_avms():
-    ClientAVMS.main_cli_avms()
+    time.sleep(1)
+    ClientAVMS.main_cli_avms(server.get(), local.get())
 
 
 def cancel_avms():
@@ -439,7 +505,7 @@ def cancel_avms():
 
 
 def change_text_button_avms():
-    AVMS_button['text'] = 'Test AVMS en cours...'
+    AVMS_button['text'] = 'Test AVMS in progress...'
 
 
 def change_back_button_avms():
@@ -486,7 +552,8 @@ def all_tests():
 
 
 def setup_start_global():
-    address_input.config(state=DISABLED)
+    address_input_LOCAL.config(state=DISABLED)
+    address_input_SAE.config(state=DISABLED)
     t.config(state=NORMAL)
     NTP_button.config(state=DISABLED)
     GNSS_button.config(state=DISABLED)
@@ -510,7 +577,7 @@ def main_all_tests():
 
 
 def change_text_button_global():
-    GLOBAL_button['text'] = 'Tests en cours...'
+    GLOBAL_button['text'] = 'Tests in progress...'
 
 
 def change_back_button_global():

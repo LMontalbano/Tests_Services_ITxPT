@@ -143,25 +143,25 @@ def parseXML(xml_string):
     return dico
 
 
-def main_gnss(server):
+def main_gnss(local):
     # Temps d'attente en second avant de reprendre le programme (utilisée avec le time.sleep())
     t = 1
 
     # Initialisation des différentes address et port
-    GRP_MULTI = '127.0.0.1'
-    PORT = 5004
-    IP_INTERFACE = server
+    GRP_MULTI = '239.255.42.21'
+    PORT = 14005
+    IP_INTERFACE = local
     IP_INTERFACE_PORT = (IP_INTERFACE, PORT)
 
     # Création du socket UDP
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     # Autoriser d'autres sockets à lier ce port aussi
-    # s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
     # Rejoindre le groupe multicast sur l'interface spécifiée
-    #s.setsockopt(socket.SOL_IP, socket.IP_ADD_MEMBERSHIP,
-                # socket.inet_aton(GRP_MULTI) + socket.inet_aton(IP_INTERFACE))
+    s.setsockopt(socket.SOL_IP, socket.IP_ADD_MEMBERSHIP,
+                socket.inet_aton(GRP_MULTI) + socket.inet_aton(IP_INTERFACE))
 
     # Configuration du logging
     logging.basicConfig(filename="std.log",
@@ -183,7 +183,7 @@ def main_gnss(server):
     try:
         s.bind(IP_INTERFACE_PORT)
     except OSError:
-        logger.error("OSError: [WinError 10049] The requested address is not valid in its context")
+        logger.error("OSError: [WinError 10049] L'adresse demandée n'est pas valide dans son contexte")
         logger.removeHandler(handler)
 
 

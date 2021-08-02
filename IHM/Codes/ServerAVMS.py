@@ -1,8 +1,8 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import xml.etree.ElementTree as ET
 
-
 cancel = False
+tous = False
 
 # Création de l'objet Server
 class Server(BaseHTTPRequestHandler):
@@ -59,12 +59,15 @@ class Server(BaseHTTPRequestHandler):
                 print(line_name(post_data))
                 print("\n")
 
+
+
             # Vérification si il s'agit d'un packet provenant du module "VehicleMonitoring"
             if tag.tag == "VehicleMonitoringDelivery":
                 print("Dernier Arrêt : ")
                 # Execution de la fonction last_stop_point_ref sur la data récupéré
                 print(last_stop_point_ref(post_data))
                 print("\n")
+
 
             # Vérification si il s'agit d'un packet provenant du module "JourneyMonitoring"
             if tag.tag == "JourneyMonitoringDelivery":
@@ -290,9 +293,13 @@ def run(server_class=HTTPServer, handler_class=Server, addr="localhost", port=80
 
     print(f"Starting httpd server on {addr}:{port}")
 
-    while not cancel:
+    x = 0
+    while not cancel and x < 5:
+        if not tous:
+            x = 0
+        else:
+            x += 1
         httpd.handle_request()
 
-
 def main_serv_avms(serv):
-    run(addr='127.0.0.1', port=8000)
+    run(addr=str(serv), port=8000)
