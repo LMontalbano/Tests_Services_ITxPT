@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 cancel = False
 tous = False
 
+
 # Création de l'objet Server
 class Server(BaseHTTPRequestHandler):
 
@@ -59,15 +60,12 @@ class Server(BaseHTTPRequestHandler):
                 print(line_name(post_data))
                 print("\n")
 
-
-
             # Vérification si il s'agit d'un packet provenant du module "VehicleMonitoring"
             if tag.tag == "VehicleMonitoringDelivery":
                 print("Dernier Arrêt : ")
                 # Execution de la fonction last_stop_point_ref sur la data récupéré
                 print(last_stop_point_ref(post_data))
                 print("\n")
-
 
             # Vérification si il s'agit d'un packet provenant du module "JourneyMonitoring"
             if tag.tag == "JourneyMonitoringDelivery":
@@ -262,11 +260,13 @@ def time_next_stop(data):
                                         else:
                                             if int(elem[1].text) == int(order) + 1:
 
-                                                if tag.find("MonitoredJourney/OnwardCalls/OnwardCall/PlannedArrivalTime") is None:
+                                                if tag.find(
+                                                        "MonitoredJourney/OnwardCalls/OnwardCall/PlannedArrivalTime") is None:
                                                     return "Error, 'PlannedArrivalTime' not exists"
 
                                                 else:
-                                                    if tag.find("MonitoredJourney/OnwardCalls/OnwardCall/ExpectedArrivalTime") is None:
+                                                    if tag.find(
+                                                            "MonitoredJourney/OnwardCalls/OnwardCall/ExpectedArrivalTime") is None:
                                                         return "Error, 'ExpectedArrivalTime' tag not exists"
 
                                                     else:
@@ -300,6 +300,7 @@ def run(server_class=HTTPServer, handler_class=Server, addr="localhost", port=80
         else:
             x += 1
         httpd.handle_request()
+
 
 def main_serv_avms(serv):
     run(addr=str(serv), port=8000)
