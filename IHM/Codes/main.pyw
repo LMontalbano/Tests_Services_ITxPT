@@ -10,81 +10,94 @@ import ClientGNSS
 import ClientAVMS
 import ServerAVMS
 
-
-# Création de la fenêtre principale
+######################### Création de la fenêtre principale #########################
 fenetre = Tk(className='test_services_ITxPT')
-fenetre.geometry("910x650")
-
-f0 = LabelFrame(fenetre)
-f0.grid(row=0, column=1, padx=50, pady=10)
-
-f1 = LabelFrame(fenetre)
-f1.grid(row=0, column=1, padx=50, pady=10)
-
-f11 = LabelFrame(f1)
-f11.grid(row=0, column=1, padx=50, pady=10)
-
-f12 = LabelFrame(f1)
-f12.grid(row=0, column=2, padx=50, pady=10)
+fenetre.geometry("910x635")
+fenetre.iconbitmap("ressources/ITxPT_logo.ico")
 
 
-f2 = LabelFrame(fenetre)
-f2.grid(row=1, column=1, padx=50, pady=10)
+### Création des Labels ###
+label_principale = LabelFrame(fenetre)
+label_principale.grid(row=0, column=1, padx=50, pady=10)
 
-f3 = LabelFrame(fenetre)
-f3.grid(row=2, column=1, padx=50, pady=10)
+label_input = LabelFrame(label_principale)
+label_input.grid(row=0, column=1, padx=50, pady=10)
 
-f4 = LabelFrame(fenetre)
-f4.grid(row=3, column=1, padx=100, pady=10)
+label_logo = LabelFrame(label_principale)
+label_logo.grid(row=0, column=2, padx=50, pady=10)
 
-img = ImageTk.PhotoImage(file="ressources/logo_Keolis_metropole_orleans.png")
-p1 = Label(f12, image=img)
-p1.config(width=190, height=50)
-p1.grid(column=3, row=1)
+label_button = LabelFrame(fenetre)
+label_button.grid(row=1, column=1, padx=50, pady=10)
 
-address_label_SAE = Label(f11, text="SAE Address : ")
-address_label_SAE.grid(column=1, row=2)
-
-server = tk.StringVar(value='127.0.0.1')
-
-address_input_SAE = Entry(f11, textvariable=server)
-address_input_SAE.grid(column=2, row=2, padx=5, pady=5)
+label_console = LabelFrame(fenetre)
+label_console.grid(row=2, column=1, padx=50, pady=10)
 
 
-address_label_LOCAL = Label(f11, text="Local Address : ")
+### Création des input ###
+# Address Local
+address_label_LOCAL = Label(label_input, text="Local Address : ")
 address_label_LOCAL.grid(column=1, row=1)
 
 local = tk.StringVar(value='127.0.0.1')
 
-address_input_LOCAL = Entry(f11, textvariable=local)
+address_input_LOCAL = Entry(label_input, textvariable=local)
 address_input_LOCAL.grid(column=2, row=1, padx=5, pady=5)
 
+# Address SAE
+address_label_SAE = Label(label_input, text="SAE Address : ")
+address_label_SAE.grid(column=1, row=2)
 
+server = tk.StringVar(value='127.0.0.1')
+
+address_input_SAE = Entry(label_input, textvariable=server)
+address_input_SAE.grid(column=2, row=2, padx=5, pady=5)
+
+
+### Logo Keolis ###
+img = ImageTk.PhotoImage(file="ressources/logo_Keolis_metropole_orleans.png")
+p1 = Label(label_logo, image=img)
+p1.config(width=190, height=50)
+p1.grid(column=3, row=1)
+
+
+### Création du lien vers le github ###
 def callback(url):
+    """ Fonction qui permet d'ouvrir un url sur un navigateur
+        Paramètre : url, un string
+        Return : Rien
+    """
     webbrowser.open_new(url)
 
-link1 = Label(fenetre, text="https://github.com/LMontalbano/Clients_Service_ITxPT", fg="blue", cursor="hand2")
-link1.grid(row=5, column=1)
-link1.bind("<Button-1>", lambda e: callback("https://github.com/LMontalbano/Clients_Service_ITxPT"))
 
-###################################### Function utiles ###############################################
+link = Label(fenetre, text="https://github.com/LMontalbano/Clients_Service_ITxPT", fg="blue", cursor="hand2")
+link.grid(row=5, column=1)
+link.bind("<Button-1>", lambda e: callback("https://github.com/LMontalbano/Clients_Service_ITxPT"))
+
+
+######################### Fonctions run #########################
 def run_ntp(temps, tous):
+    """ Fonction qui permet de lancer le test NTP
+        Paramètres : temps, un int et tous un boolean
+        Return : un tuple de int, (nb_test, test_ok)
+    """
+    # Initialisation des variables
     sec = 0
     num_lines = 0
     thread_time = temps
     test_ok = 0
     nb_test = 0
+
     if tous:
         change_text_button_ntp()
-        if t.compare("end-1c", "!=", "1.0"):
+        if text_console.compare("end-1c", "!=", "1.0"):
             print("\n")
         print("############### All Tests Started... ###############")
         time.sleep(1)
 
-    if t.compare("end-1c", "!=", "1.0"):
+    if text_console.compare("end-1c", "!=", "1.0"):
         print("\n")
     print("########## Test NTP ##########")
-    # Affichage du server NTP sur lequel le programme va récupérer l'heure
+
     if server.get() == "":
         print("Please enter a NTP server")
     else:
@@ -111,6 +124,7 @@ def run_ntp(temps, tous):
 
                 sec += 1
         err = 0
+
         with open("std.log") as f:
             if 'Failed' not in f.readlines()[num_lines - 1]:
                 x = num_lines
@@ -132,24 +146,29 @@ def run_ntp(temps, tous):
         nb_test += 1
 
     res = nb_test, test_ok
-
     setup_end_ntp()
 
     return res
 
 
 def run_gnss(temps, tous, nb_test, test_ok):
+    """ Fonction qui permet de lancer le test GNSS
+        Paramètres : 'temps' un int, 'tous' un boolean, 'nb_test' un int et 'test_ok' un int
+        Return : un tuple de int, (nb_test, test_ok)
+    """
+    # Initialisation des variables
     thread_time = temps
     sec = 0
     nb_test = nb_test
     test_ok = test_ok
+
     if tous:
         change_text_button_gnss()
 
-    if t.compare("end-1c", "!=", "1.0"):
+    if text_console.compare("end-1c", "!=", "1.0"):
         print("\n")
     print("########## Test GNSS ##########")
-    # Affichage du server NTP sur lequel le programme va récupérer l'heure
+
     if server.get() == "":
         print("Please enter a GNSS server")
     else:
@@ -176,7 +195,6 @@ def run_gnss(temps, tous, nb_test, test_ok):
         else:
             print("Test GNSS Failed !!!")
 
-
     setup_end_gnss()
 
     if tous:
@@ -187,18 +205,21 @@ def run_gnss(temps, tous, nb_test, test_ok):
     return res
 
 
-
-def run_avms(temps, tous, nb_test, test_ok):
+def run_avms(tous, nb_test, test_ok):
+    """ Fonction qui permet de lancer le test AVMS
+        Paramètres : 'tous' un boolean, 'nb_test' un int et 'test_ok' un int
+        Return : un tuple de int, (nb_test, test_ok)
+    """
+    # Initialisation des variables
     ServerAVMS.cancel = False
-    thread_time = temps
-    sec = 0
     nb_test = nb_test
     test_ok = test_ok
+
     if tous:
         change_text_button_avms()
         ServerAVMS.tous = True
 
-    if t.compare("end-1c", "!=", "1.0"):
+    if text_console.compare("end-1c", "!=", "1.0"):
         print("\n")
     print("########## Test AVMS ##########")
     print('Server: ' + server.get())
@@ -208,6 +229,7 @@ def run_avms(temps, tous, nb_test, test_ok):
     num_lines = sum(1 for _ in open("std.log"))
     x = num_lines
     num_lines -= 1
+
     with open("std.log") as f:
         while num_lines >= x - 5:
             f.seek(0)
@@ -232,33 +254,38 @@ def run_avms(temps, tous, nb_test, test_ok):
 
     ServerAVMS.tous = False
     setup_end_avms()
+
     if tous:
         change_back_button_global()
-    return nb_test, test_ok
+
+    res = nb_test, test_ok
+
+    return res
 
 
 def run_apc():
+    """ Fonction qui permet de lancer le test APC
+        Paramètres :
+        Return :
+    """
     print("\n")
     print("########## Test APC ##########")
     print("Not Yet Implemented")
     setup_end_apc()
 
 
-
-######################################### Class utiles ###############################################
-class PrintLogger:  # create file like object
-    def __init__(self, textbox):  # pass reference to text widget
-        self.textbox = textbox  # keep ref
+######################### Class PrintLogger et Class Threads #########################
+# Class pour print sur la console Tkinter
+class PrintLogger:
+    def __init__(self, textbox):
+        self.textbox = textbox
 
     def write(self, text):
-        self.textbox.insert(tk.END, text)  # write text to textbox
+        self.textbox.insert(tk.END, text)
         self.textbox.see("end")
-        # could also scroll to end of textbox here to make sure always visible
-
-    def flush(self):  # needed for file like object
-        pass
 
 
+# Class du Thread du test NTP
 class ThreadNTP(threading.Thread):
     def __init__(self, thread_time):
         threading.Thread.__init__(self)
@@ -268,6 +295,7 @@ class ThreadNTP(threading.Thread):
         run_ntp(temps=self.thread_time, tous=False)
 
 
+# Class du Thread du test GNSS
 class ThreadGNSS(threading.Thread):
     def __init__(self, thread_time):
         threading.Thread.__init__(self)
@@ -277,15 +305,17 @@ class ThreadGNSS(threading.Thread):
         run_gnss(temps=self.thread_time, tous=False, nb_test=None, test_ok=None)
 
 
+# Class du Thread Server du test AVMS
 class ThreadAVMSServer(threading.Thread):
     def __init__(self, thread_time):
         threading.Thread.__init__(self)
         self.thread_time = thread_time
 
     def run(self):
-        run_avms(temps=self.thread_time, tous=False, nb_test=None, test_ok=None)
+        run_avms(tous=False, nb_test=None, test_ok=None)
 
 
+# Class du Thread Client du test AVMS
 class ThreadAVMSClient(threading.Thread):
     def __init__(self, thread_time):
         threading.Thread.__init__(self)
@@ -295,6 +325,7 @@ class ThreadAVMSClient(threading.Thread):
         client_avms()
 
 
+# Class du Thread pour cancel le test AVMS
 class ThreadAVMSCancel(threading.Thread):
     def __init__(self, thread_time):
         threading.Thread.__init__(self)
@@ -304,6 +335,7 @@ class ThreadAVMSCancel(threading.Thread):
         ServerAVMS.cancel = True
 
 
+# Class du Thread du test APC
 class ThreadAPC(threading.Thread):
     def __init__(self, thread_time):
         threading.Thread.__init__(self)
@@ -313,6 +345,7 @@ class ThreadAPC(threading.Thread):
         run_apc()
 
 
+# Class du Thread du test global
 class ThreadGlobal(threading.Thread):
     def __init__(self, thread_time):
         threading.Thread.__init__(self)
@@ -326,20 +359,28 @@ class ThreadGlobal(threading.Thread):
 
         thread10 = ThreadAVMSClient(self.thread_time)
         thread10.start()
-        res_avms = run_avms(temps=self.thread_time, tous=True, nb_test=res_gnss[0], test_ok=res_gnss[1])
+        run_avms(tous=True, nb_test=res_gnss[0], test_ok=res_gnss[1])
 
 
-########################################### NTP ##############################################
+######################### NTP #########################
 
 def ntp():
+    """ Fonction qui permet de lancer le test NTP
+        Paramètres : aucun
+        Return : rien
+    """
     change_text_button_ntp()
     main_ntp()
 
 
 def setup_start_ntp():
+    """ Fonction qui permet de setup l'état des différents élément du logiciel au start du test ntp
+        Paramètres : aucun
+        Return : rien
+    """
     address_input_LOCAL.config(state=DISABLED)
     address_input_SAE.config(state=DISABLED)
-    t.config(state=NORMAL)
+    text_console.config(state=NORMAL)
     NTP_button.config(state=DISABLED)
     GNSS_button.config(state=DISABLED)
     AVMS_button.config(state=DISABLED)
@@ -349,10 +390,14 @@ def setup_start_ntp():
 
 
 def setup_end_ntp():
+    """ Fonction qui permet de setup l'état des différents élément du logiciel a la fin du test ntp
+        Paramètres : aucun
+        Return : rien
+    """
     change_back_button_ntp()
     address_input_LOCAL.config(state=NORMAL)
     address_input_SAE.config(state=NORMAL)
-    t.config(state=DISABLED)
+    text_console.config(state=DISABLED)
     NTP_button.config(state=NORMAL)
     GNSS_button.config(state=NORMAL)
     AVMS_button.config(state=NORMAL)
@@ -362,40 +407,60 @@ def setup_end_ntp():
 
 
 def main_ntp():
+    """ Fonction qui va lancer le setup_start_ntp ainsi que le Thread du test
+        Paramètres : aucun
+        Return : rien
+    """
     setup_start_ntp()
-    # create instance of file like object
-    p1 = PrintLogger(t)
-    # replace sys.stdout with our object
-    sys.stdout = p1
 
-    test_time = 5
-    thread1 = ThreadNTP(test_time)
-    thread1.start()
+    console_tkinter = PrintLogger(text_console)
+    sys.stdout = console_tkinter
+
+    thread_time = 5
+    thread_ntp = ThreadNTP(thread_time)
+    thread_ntp.start()
 
 
 def change_text_button_ntp():
+    """ Fonction qui permet de changer le texte du bouton 'Test NTP'
+        Paramètres : aucun
+        Return : rien
+    """
     NTP_button['text'] = 'Test NTP in progress...'
 
 
 def change_back_button_ntp():
+    """ Fonction qui permet de réinisiatiler le texte du bouton 'Test NTP'
+        Paramètres : aucun
+        Return : rien
+    """
     NTP_button['text'] = 'Test NTP'
 
 
-NTP_button = Button(f2, text="Test NTP", command=ntp)
+#### Création du bouton NTP ####
+NTP_button = Button(label_button, text="Test NTP", command=ntp)
 NTP_button.grid(column=2, row=3, ipadx=15, ipady=10, padx=5, pady=5)
 
 
-##################################### GNSS ################################################
+######################### GNSS #########################
 
 def gnss():
+    """ Fonction qui permet de lancer le test gnss
+        Paramètres : aucun
+        Return : rien
+    """
     change_text_button_gnss()
     main_gnss()
 
 
 def setup_start_gnss():
+    """ Fonction qui permet de setup l'état des différents élément du logiciel au start du test gnss
+        Paramètres : aucun
+        Return : rien
+    """
     address_input_LOCAL.config(state=DISABLED)
     address_input_SAE.config(state=DISABLED)
-    t.config(state=NORMAL)
+    text_console.config(state=NORMAL)
     NTP_button.config(state=DISABLED)
     GNSS_button.config(state=DISABLED)
     AVMS_button.config(state=DISABLED)
@@ -405,10 +470,14 @@ def setup_start_gnss():
 
 
 def setup_end_gnss():
+    """ Fonction qui permet de setup l'état des différents élément du logiciel a la fin du test gnss
+        Paramètres : aucun
+        Return : rien
+    """
     change_back_button_gnss()
     address_input_LOCAL.config(state=NORMAL)
     address_input_SAE.config(state=NORMAL)
-    t.config(state=DISABLED)
+    text_console.config(state=DISABLED)
     NTP_button.config(state=NORMAL)
     GNSS_button.config(state=NORMAL)
     AVMS_button.config(state=NORMAL)
@@ -418,40 +487,60 @@ def setup_end_gnss():
 
 
 def main_gnss():
+    """ Fonction qui va lancer le setup_start_gnss ainsi que le Thread du test
+        Paramètres : aucun
+        Return : rien
+    """
     setup_start_gnss()
-    # create instance of file like object
-    p2 = PrintLogger(t)
-    # replace sys.stdout with our object
-    sys.stdout = p2
 
-    test_time = 5
-    thread2 = ThreadGNSS(test_time)
-    thread2.start()
+    console_tkinter = PrintLogger(text_console)
+    sys.stdout = console_tkinter
+
+    thread_time = 5
+    thread_gnss = ThreadGNSS(thread_time)
+    thread_gnss.start()
 
 
 def change_text_button_gnss():
+    """ Fonction qui permet de changer le texte du bouton 'Test GNSS'
+        Paramètres : aucun
+        Return : rien
+    """
     GNSS_button['text'] = 'Test GNSS in progress...'
 
 
 def change_back_button_gnss():
+    """ Fonction qui permet de réinisiatiler le texte du bouton 'Test GNSS'
+        Paramètres : aucun
+        Return : rien
+    """
     GNSS_button['text'] = 'Test GNSS'
 
 
-GNSS_button = Button(f2, text="Test GNSS", command=gnss)
+#### Création du bouton GNSS ####
+GNSS_button = Button(label_button, text="Test GNSS", command=gnss)
 GNSS_button.grid(column=3, row=3, ipadx=15, ipady=10, padx=5, pady=5)
 
 
-###################################### AVMS #################################################
+######################### AVMS #########################
 
 def avms():
+    """ Fonction qui permet de lancer le test avms
+        Paramètres : aucun
+        Return : rien
+    """
     change_text_button_avms()
     main_avms()
 
 
 def setup_start_avms():
+    """ Fonction qui permet de setup l'état des différents élément du logiciel au start du test avms
+        Paramètres : aucun
+        Return : rien
+    """
     address_input_LOCAL.config(state=DISABLED)
     address_input_SAE.config(state=DISABLED)
-    t.config(state=NORMAL)
+    text_console.config(state=NORMAL)
     NTP_button.config(state=DISABLED)
     GNSS_button.config(state=DISABLED)
     AVMS_button.config(state=DISABLED)
@@ -459,11 +548,16 @@ def setup_start_avms():
     GLOBAL_button.config(state=DISABLED)
     Cancel_AVMS_button.config(state=NORMAL)
 
+
 def setup_end_avms():
+    """ Fonction qui permet de setup l'état des différents élément du logiciel a la fin du test avms
+        Paramètres : aucun
+        Return : rien
+    """
     change_back_button_avms()
     address_input_LOCAL.config(state=NORMAL)
     address_input_SAE.config(state=NORMAL)
-    t.config(state=DISABLED)
+    text_console.config(state=DISABLED)
     NTP_button.config(state=NORMAL)
     GNSS_button.config(state=NORMAL)
     AVMS_button.config(state=NORMAL)
@@ -473,88 +567,140 @@ def setup_end_avms():
 
 
 def main_avms():
+    """ Fonction qui va lancer le setup_start_avms ainsi que le server_avms
+        Paramètres : aucun
+        Return : rien
+    """
     setup_start_avms()
     server_avms()
 
 
 def server_avms():
-    # create instance of file like object
-    p3 = PrintLogger(t)
-    # replace sys.stdout with our object
-    sys.stdout = p3
+    """ Fonction qui va lancer le setup_start_ntp ainsi que le Thread du test
+        Paramètres : aucun
+        Return : rien
+    """
+    console_tkinter = PrintLogger(text_console)
+    sys.stdout = console_tkinter
 
-    test_time = 5
-    thread3 = ThreadAVMSServer(test_time)
-    thread3.start()
+    thread_time = 5
+    thread_server_avms = ThreadAVMSServer(thread_time)
+    thread_server_avms.start()
 
-    # os.system("start python Trials/ClientAVMS.py")
-
-    thread10 = ThreadAVMSClient(test_time)
-    thread10.start()
+    thread_client_avms = ThreadAVMSClient(thread_time)
+    thread_client_avms.start()
 
 
 def client_avms():
+    """ Fonction qui permet de lancer le client_avms
+        Paramètres : aucun
+        Return : rien
+    """
     time.sleep(1)
     ClientAVMS.main_cli_avms(server.get(), local.get())
 
 
 def cancel_avms():
-    test_time = 5
-    thread4 = ThreadAVMSCancel(test_time)
-    thread4.start()
+    """ Fonction qui permet de cancel le test avms
+        Paramètres : aucun
+        Return : rien
+    """
+    thread_time = 5
+    thread_cancel_avms = ThreadAVMSCancel(thread_time)
+    thread_cancel_avms.start()
 
 
 def change_text_button_avms():
+    """ Fonction qui permet de changer le texte du bouton 'Test AVMS'
+        Paramètres : aucun
+        Return : rien
+    """
     AVMS_button['text'] = 'Test AVMS in progress...'
 
 
 def change_back_button_avms():
+    """ Fonction qui permet de réinisiatiler le texte du bouton 'Test AVMS'
+        Paramètres : aucun
+        Return : rien
+    """
     AVMS_button['text'] = 'Test AVMS'
 
 
-AVMS_button = Button(f2, text="Test AVMS", command=avms)
+#### Création des boutons AVMS ####
+# Bouton avms
+AVMS_button = Button(label_button, text="Test AVMS", command=avms)
 AVMS_button.grid(column=4, row=3, ipadx=15, ipady=10, padx=5, pady=5)
 
-Cancel_AVMS_button = Button(f2, text="Cancel Test AVMS", command=cancel_avms)
+# Bouton cancel avms
+Cancel_AVMS_button = Button(label_button, text="Cancel Test AVMS", command=cancel_avms)
 Cancel_AVMS_button.grid(column=4, row=5, ipadx=15, ipady=10, padx=5, pady=5)
 Cancel_AVMS_button.config(state=DISABLED)
 
 
-####################################### APC ##################################################
+######################### APC #########################
 
 def apc():
+    """ Fonction qui permet de lancer le test apc
+        Paramètres : aucun
+        Return : rien
+    """
     main_apc()
 
 
 def main_apc():
+    """ Fonction qui permet de lancer le setup_start_apc et le Thread du test apc
+        Paramètres : aucun
+        Return : rien
+    """
     setup_start_apc()
-    p4 = PrintLogger(t)
-    sys.stdout = p4
-    test_time = 5
-    thread5 = ThreadAPC(test_time)
-    thread5.start()
+
+    console_tkinter = PrintLogger(text_console)
+    sys.stdout = console_tkinter
+
+    thread_time = 5
+    thread_apc = ThreadAPC(thread_time)
+    thread_apc.start()
+
 
 def setup_start_apc():
-    t.config(state=NORMAL)
+    """ Fonction qui permet de setup l'état des différents élément du logiciel au start du test apc
+        Paramètres : aucun
+        Return : rien
+    """
+    text_console.config(state=NORMAL)
+
 
 def setup_end_apc():
-    t.config(state=DISABLED)
+    """ Fonction qui permet de setup l'état des différents élément du logiciel a la fin du test apc
+        Paramètres : aucun
+        Return : rien
+    """
+    text_console.config(state=DISABLED)
 
 
-APC_button = Button(f2, text="Test APC", command=apc)
+#### Création du bouton APC ####
+APC_button = Button(label_button, text="Test APC", command=apc)
 APC_button.grid(column=5, row=3, ipadx=15, ipady=10, padx=5, pady=5)
 
 
-#################################### Tous les Tests #########################################
+######################### All Tests #########################
 
 def all_tests():
+    """ Fonction qui permet de lancer l'ensemble des tests
+        Paramètres : aucun
+        Return : rien
+    """
     main_all_tests()
 
 
 def setup_start_global():
+    """ Fonction qui permet de setup l'état des différents élément du logiciel au start du all test
+        Paramètres : aucun
+        Return : rien
+    """
     address_input_LOCAL.config(state=DISABLED)
     address_input_SAE.config(state=DISABLED)
-    t.config(state=NORMAL)
+    text_console.config(state=NORMAL)
     NTP_button.config(state=DISABLED)
     GNSS_button.config(state=DISABLED)
     AVMS_button.config(state=DISABLED)
@@ -564,44 +710,46 @@ def setup_start_global():
 
 
 def main_all_tests():
+    """ Fonction qui permet de lancer le setup_start_global et le Thread du all test
+        Paramètres : aucun
+        Return : rien
+    """
     setup_start_global()
 
-    # create instance of file like object
-    p_global = PrintLogger(t)
-    # replace sys.stdout with our object
-    sys.stdout = p_global
+    console_tkinter = PrintLogger(text_console)
+    sys.stdout = console_tkinter
 
-    test_time = 5
-    thread_global = ThreadGlobal(test_time)
+    thread_time = 5
+    thread_global = ThreadGlobal(thread_time)
     thread_global.start()
 
 
 def change_text_button_global():
+    """ Fonction qui permet de changer le texte du bouton 'All Test'
+        Paramètres : aucun
+        Return : rien
+    """
     GLOBAL_button['text'] = 'Tests in progress...'
 
 
 def change_back_button_global():
+    """ Fonction qui permet de réinisiatiler le texte du bouton 'All Test'
+        Paramètres : aucun
+        Return : rien
+    """
     GLOBAL_button['text'] = 'All Tests'
 
 
-GLOBAL_button = Button(f2, text="All Tests", command=all_tests)
+#### Création du bouton All Test ####
+GLOBAL_button = Button(label_button, text="All Tests", command=all_tests)
 GLOBAL_button.grid(column=6, row=3, ipadx=15, ipady=10, padx=5, pady=5)
 
-###################################### Fenêtre principale ####################################
 
+######################### Zone de texte #########################
 
-t = tk.Text(f3, width=100, height=21, state=DISABLED)
-t.grid(column=1, row=4)
+text_console = tk.Text(label_console, width=100, height=21, state=DISABLED)
+text_console.grid(column=1, row=4)
 
-
-# fonction pour close la fenêtre
-def close():
-    fenetre.destroy()
-
-
-# Bouton 'Fermer'
-# Close_button = Button(f4, text="Fermer", command=close, width=50, bg='red')
-# Close_button.grid(column=1, row=8)
 
 # Pour finir, on lance la boucle programme
 fenetre.mainloop()
