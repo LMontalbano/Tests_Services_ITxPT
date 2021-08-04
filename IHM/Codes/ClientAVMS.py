@@ -146,7 +146,7 @@ def main_cli_avms(server, local):
                             logger.info(e)
                             logger.removeHandler(handler)
                             print("\n")
-                            print("Please cancel and enter a valid Local or SAE address.")
+                            print("Please Cancel Test AVMS and enter a valid Local and SAE address.")
 
                     except requests.exceptions.ConnectionError as e:
                         logger.info(e)
