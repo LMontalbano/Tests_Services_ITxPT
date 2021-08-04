@@ -44,8 +44,6 @@ def main_ntp(server):
     logger.addHandler(handler)
 
     try:
-
-
         logger.info(get_network_time(server))
         logger.removeHandler(handler)
 
@@ -75,4 +73,3 @@ def main_ntp(server):
                             filemode='w')
         logger.warning("Failed address lookup")
         logger.removeHandler(handler)
-

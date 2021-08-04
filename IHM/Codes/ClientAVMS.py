@@ -17,75 +17,75 @@ def main_cli_avms(server, local):
     reply_path_pattern_monitoring = '/PatternMonitoringDeliveryReply/1'
 
     ### RunMonitoring ###
-    tree0 = ElementTree.ElementTree(
+    tree_run_monitoring = ElementTree.ElementTree(
         ElementTree.fromstring("<?xml version='1.0' encoding='UTF-8'?>\n    <SubscribeRequest>\n        "
                                "<Client-IP-Address>" + client_ip_address + "</Client-IP-Address>\n        <ReplyPort>"
                                + reply_port + "</ReplyPort>\n        <ReplyPath>" + reply_path_run_monitoring +
                                "</ReplyPath>\n "
                                "</SubscribeRequest>")
     )
-    root = tree0.getroot()
-    rxml0 = ElementTree.tostring(root, encoding='utf8', method='xml')
+    root = tree_run_monitoring.getroot()
+    rxml_run_monitoring = ElementTree.tostring(root, encoding='utf8', method='xml')
 
 
     ### PlannedPattern ###
-    tree1 = ElementTree.ElementTree(
+    tree_planned_pattern = ElementTree.ElementTree(
         ElementTree.fromstring("<?xml version='1.0' encoding='UTF-8'?>\n    <SubscribeRequest>\n        "
                                "<Client-IP-Address>" + client_ip_address + "</Client-IP-Address>\n        <ReplyPort>"
                                + reply_port + "</ReplyPort>\n        <ReplyPath>" + reply_path_planned_pattern +
                                "</ReplyPath>\n "
                                "</SubscribeRequest>")
     )
-    root = tree1.getroot()
-    rxml1 = ElementTree.tostring(root, encoding='utf8', method='xml')
+    root = tree_planned_pattern.getroot()
+    rxml_planned_pattern = ElementTree.tostring(root, encoding='utf8', method='xml')
 
 
     ### VehicleMonitoring ###
-    tree2 = ElementTree.ElementTree(
+    tree_vehicle_monitoring = ElementTree.ElementTree(
         ElementTree.fromstring("<?xml version='1.0' encoding='UTF-8'?>\n    <SubscribeRequest>\n        "
                                "<Client-IP-Address>" + client_ip_address + "</Client-IP-Address>\n        <ReplyPort>"
                                + reply_port + "</ReplyPort>\n        <ReplyPath>" + reply_path_vehicle_monitoring +
                                "</ReplyPath>\n    "
                                "</SubscribeRequest>")
     )
-    root = tree2.getroot()
-    rxml2 = ElementTree.tostring(root, encoding='utf8', method='xml')
+    root = tree_vehicle_monitoring.getroot()
+    rxml_vehicle_monitoring = ElementTree.tostring(root, encoding='utf8', method='xml')
 
 
     ### JourneyMonitoring ###
-    tree3 = ElementTree.ElementTree(
+    tree_journey_monitoring = ElementTree.ElementTree(
         ElementTree.fromstring("<?xml version='1.0' encoding='UTF-8'?>\n    <SubscribeRequest>\n        "
                                "<Client-IP-Address>" + client_ip_address + "</Client-IP-Address>\n        <ReplyPort>"
                                + reply_port + "</ReplyPort>\n        <ReplyPath>" + reply_path_journey_monitoring +
                                "</ReplyPath>\n    "
                                "</SubscribeRequest>")
     )
-    root = tree3.getroot()
-    rxml3 = ElementTree.tostring(root, encoding='utf8', method='xml')
+    root = tree_journey_monitoring.getroot()
+    rxml_journey_monitoring = ElementTree.tostring(root, encoding='utf8', method='xml')
 
 
     ### GeneralMessage ###
-    tree4 = ElementTree.ElementTree(
+    tree_general_message = ElementTree.ElementTree(
         ElementTree.fromstring("<?xml version='1.0' encoding='UTF-8'?>\n    <SubscribeRequest>\n        "
                                "<Client-IP-Address>" + client_ip_address + "</Client-IP-Address>\n        <ReplyPort>"
                                + reply_port + "</ReplyPort>\n        <ReplyPath>" + reply_path_general_message +
                                "</ReplyPath>\n    "
                                "</SubscribeRequest>")
     )
-    root = tree4.getroot()
-    rxml4 = ElementTree.tostring(root, encoding='utf8', method='xml')
+    root = tree_general_message.getroot()
+    rxml_general_message = ElementTree.tostring(root, encoding='utf8', method='xml')
 
 
     ### PatternMonitoring ###
-    tree5 = ElementTree.ElementTree(
+    tree_pattern_monitoring = ElementTree.ElementTree(
         ElementTree.fromstring("<?xml version='1.0' encoding='UTF-8'?>\n    <SubscribeRequest>\n        "
                                "<Client-IP-Address>" + client_ip_address + "</Client-IP-Address>\n        <ReplyPort>"
                                + reply_port + "</ReplyPort>\n        <ReplyPath>" + reply_path_pattern_monitoring +
                                "</ReplyPath>\n    "
                                "</SubscribeRequest>")
     )
-    root = tree5.getroot()
-    rxml5 = ElementTree.tostring(root, encoding='utf8', method='xml')
+    root = tree_pattern_monitoring.getroot()
+    rxml_pattern_monitoring = ElementTree.tostring(root, encoding='utf8', method='xml')
 
 
     # Création d'un headers personnalisé
@@ -100,42 +100,42 @@ def main_cli_avms(server, local):
 
     # Request pour le module runmonitoring
     try:
-        requests.post(address + ':' + port + "/avms/runmonitoring", data=rxml0, headers=headers)
+        requests.post(address + ':' + port + "/avms/runmonitoring", data=rxml_run_monitoring, headers=headers)
     except requests.exceptions.ConnectionError as e:
         print(e)
         ServerAVMS.cancel = True
 
     # Request pour le module plannedpattern
     try:
-        requests.post(address + ':' + port + "/avms/plannedpattern", data=rxml1, headers=headers)
+        requests.post(address + ':' + port + "/avms/plannedpattern", data=rxml_planned_pattern, headers=headers)
     except requests.exceptions.ConnectionError as e:
         print(e)
         ServerAVMS.cancel = True
 
     # Request pour le module vehiclemonitoring
     try:
-        requests.post(address + ':' + port + "/avms/vehiclemonitoring", data=rxml2, headers=headers)
+        requests.post(address + ':' + port + "/avms/vehiclemonitoring", data=rxml_vehicle_monitoring, headers=headers)
     except requests.exceptions.ConnectionError as e:
         print(e)
         ServerAVMS.cancel = True
 
     # Request pour le module journeymonitoring
     try:
-        requests.post(address + ':' + port + "/avms/journeymonitoring", data=rxml3, headers=headers)
+        requests.post(address + ':' + port + "/avms/journeymonitoring", data=rxml_journey_monitoring, headers=headers)
     except requests.exceptions.ConnectionError as e:
         print(e)
         ServerAVMS.cancel = True
 
     # Request pour le module generalmessage
     try:
-        requests.post(address + ':' + port + "/avms/generalmessage", data=rxml4, headers=headers)
+        requests.post(address + ':' + port + "/avms/generalmessage", data=rxml_general_message, headers=headers)
     except requests.exceptions.ConnectionError as e:
         print(e)
         ServerAVMS.cancel = True
 
     # Request pour le module patternmonitoring
     try:
-        requests.post(address + ':' + port + "/avms/patternmonitoring", data=rxml5, headers=headers)
+        requests.post(address + ':' + port + "/avms/patternmonitoring", data=rxml_pattern_monitoring, headers=headers)
     except requests.exceptions.ConnectionError as e:
         print(e)
         ServerAVMS.cancel = True

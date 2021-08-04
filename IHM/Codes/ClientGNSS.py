@@ -148,10 +148,10 @@ def main_gnss(local):
     t = 1
 
     # Initialisation des différentes address et port
-    GRP_MULTI = '239.255.42.21'
-    PORT = 14005
-    IP_INTERFACE = local
-    IP_INTERFACE_PORT = (IP_INTERFACE, PORT)
+    grp_multi = '239.255.42.21'
+    port = 14005
+    ip_interface = local
+    ip_interface_port = (ip_interface, port)
 
     # Création du socket UDP
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -161,7 +161,7 @@ def main_gnss(local):
 
     # Rejoindre le groupe multicast sur l'interface spécifiée
     s.setsockopt(socket.SOL_IP, socket.IP_ADD_MEMBERSHIP,
-                socket.inet_aton(GRP_MULTI) + socket.inet_aton(IP_INTERFACE))
+                 socket.inet_aton(grp_multi) + socket.inet_aton(ip_interface))
 
     # Configuration du logging
     logging.basicConfig(filename="std.log",
@@ -181,11 +181,10 @@ def main_gnss(local):
     s.settimeout(t)
     # Lier le socket pour récupérer les données
     try:
-        s.bind(IP_INTERFACE_PORT)
+        s.bind(ip_interface_port)
     except OSError:
         logger.error("OSError: [WinError 10049] L'adresse demandée n'est pas valide dans son contexte")
         logger.removeHandler(handler)
-
 
     try:
         # Récupération des données
@@ -217,8 +216,6 @@ def main_gnss(local):
             logger.error(err)
             logger.removeHandler(handler)
 
-
     # Tempo de t second avant de recommencer
     # time.sleep(t)
     logger.removeHandler(handler)
-
