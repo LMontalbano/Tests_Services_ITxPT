@@ -26,9 +26,6 @@ def get_network_time(ntp_server):
 
 def main_ntp(server):
 
-    # Temps d'attente en second avant de reprendre le programme (utilisée avec le time.sleep())
-    # t = 1
-
     # Configuration du logging
     logging.basicConfig(filename="std.log",
                         format='%(asctime)s %(message)s',
@@ -47,13 +44,8 @@ def main_ntp(server):
         logger.info(get_network_time(server))
         logger.removeHandler(handler)
 
-        # time.sleep(t) permet de freeze le programme pendant une période t sec
-        # time.sleep(t)
-
     # Si la fonction retourne une NTPException
     except ntplib.NTPException:
-        # print("Error NTPException")
-        # Enregistrement de l'erreur dans le fichier std.log
         logging.basicConfig(filename="std.log",
                             format='%(asctime)s %(message)s',
                             filemode='w')
@@ -63,9 +55,6 @@ def main_ntp(server):
     # Si la fonction retourne une socket.gaierror
     except socket.gaierror:
         # Indique sur la console que la connexion au server NTP à fail et de rentrée une address NTP valide
-        # print("Failed address lookup")
-        # print('Please enter an NTP server: ')
-        # server = input()
 
         # Enregistrement de l'erreur dans le fichier std.log
         logging.basicConfig(filename="std.log",
