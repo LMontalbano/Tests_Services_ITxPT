@@ -603,6 +603,12 @@ def client_avms():
     ClientAVMS.main_cli_avms(server.get(), local.get())
     Cancel_AVMS_button.config(state=NORMAL)
 
+    num_lines = sum(1 for _ in open("std.log"))
+    num_lines -= 1
+    with open("std.log") as f:
+        if 'Connection aborted' in f.readlines()[num_lines]:
+            cancel_avms()
+
 
 def cancel_avms():
     """ Fonction qui permet de cancel le test avms
