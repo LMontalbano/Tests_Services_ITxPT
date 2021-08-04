@@ -284,6 +284,9 @@ class PrintLogger:
         self.textbox.insert(tk.END, text)
         self.textbox.see("end")
 
+    def flush(self):
+        pass
+
 
 # Class du Thread du test NTP
 class ThreadNTP(threading.Thread):
@@ -333,6 +336,7 @@ class ThreadAVMSCancel(threading.Thread):
 
     def run(self):
         ServerAVMS.cancel = True
+        setup_end_avms()
 
 
 # Class du Thread du test APC
