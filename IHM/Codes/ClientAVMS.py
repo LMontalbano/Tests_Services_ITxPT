@@ -1,6 +1,7 @@
 import requests
 import xml.etree.ElementTree as ElementTree
-import ServerAVMS
+import logging
+import sys
 
 
 def main_cli_avms(server, local):
@@ -96,46 +97,83 @@ def main_cli_avms(server, local):
         "Content-Type": "text/xml"
     }
 
+
+    # Configuration du logging
+    logging.basicConfig(filename="std.log",
+                        format='%(asctime)s %(message)s',
+                        filemode='w')
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+
+    # Création et configuration d'un handler
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
     ### POST Requests ###
 
-    # Request pour le module runmonitoring
     try:
+        # Request pour le module runmonitoring
         requests.post(address + ':' + port + "/avms/runmonitoring", data=rxml_run_monitoring, headers=headers)
-    except requests.exceptions.ConnectionError as e:
-        print(e)
-        ServerAVMS.cancel = True
 
-    # Request pour le module plannedpattern
-    try:
-        requests.post(address + ':' + port + "/avms/plannedpattern", data=rxml_planned_pattern, headers=headers)
-    except requests.exceptions.ConnectionError as e:
-        print(e)
-        ServerAVMS.cancel = True
+        try:
+            # Request pour le module plannedpattern
+            requests.post(address + ':' + port + "/avms/plannedpattern", data=rxml_planned_pattern, headers=headers)
 
-    # Request pour le module vehiclemonitoring
-    try:
-        requests.post(address + ':' + port + "/avms/vehiclemonitoring", data=rxml_vehicle_monitoring, headers=headers)
-    except requests.exceptions.ConnectionError as e:
-        print(e)
-        ServerAVMS.cancel = True
+            try:
+                # Request pour le module vehiclemonitoring
+                requests.post(address + ':' + port + "/avms/vehiclemonitoring", data=rxml_vehicle_monitoring,
+                              headers=headers)
 
-    # Request pour le module journeymonitoring
-    try:
-        requests.post(address + ':' + port + "/avms/journeymonitoring", data=rxml_journey_monitoring, headers=headers)
-    except requests.exceptions.ConnectionError as e:
-        print(e)
-        ServerAVMS.cancel = True
+                try:
+                    # Request pour le module journeymonitoring
+                    requests.post(address + ':' + port + "/avms/journeymonitoring", data=rxml_journey_monitoring,
+                                  headers=headers)
 
-    # Request pour le module generalmessage
-    try:
-        requests.post(address + ':' + port + "/avms/generalmessage", data=rxml_general_message, headers=headers)
-    except requests.exceptions.ConnectionError as e:
-        print(e)
-        ServerAVMS.cancel = True
+                    try:
+                        # Request pour le module generalmessage
+                        requests.post(address + ':' + port + "/avms/generalmessage", data=rxml_general_message,
+                                      headers=headers)
 
-    # Request pour le module patternmonitoring
-    try:
-        requests.post(address + ':' + port + "/avms/patternmonitoring", data=rxml_pattern_monitoring, headers=headers)
+                        try:
+                            # Request pour le module patternmonitoring
+                            requests.post(address + ':' + port + "/avms/patternmonitoring",
+                                          data=rxml_pattern_monitoring, headers=headers)
+
+                        except requests.exceptions.ConnectionError as e:
+                            logger.info(e)
+                            logger.removeHandler(handler)
+                            print("\n")
+                            print("Please cancel and enter a valid Local or SAE address.")
+
+                    except requests.exceptions.ConnectionError as e:
+                        logger.info(e)
+                        logger.removeHandler(handler)
+                        print("\n")
+                        print("Please Cancel Test AVMS and enter a valid Local and SAE address.")
+
+                except requests.exceptions.ConnectionError as e:
+                    logger.info(e)
+                    logger.removeHandler(handler)
+                    print("\n")
+                    print("Please Cancel Test AVMS and enter a valid Local and SAE address.")
+
+            except requests.exceptions.ConnectionError as e:
+                logger.info(e)
+                logger.removeHandler(handler)
+                print("\n")
+                print("Please Cancel Test AVMS and enter a valid Local and SAE address.")
+
+        except requests.exceptions.ConnectionError as e:
+            logger.info(e)
+            logger.removeHandler(handler)
+            print("\n")
+            print("Please Cancel Test AVMS and enter a valid Local and SAE address.")
+
     except requests.exceptions.ConnectionError as e:
-        print(e)
-        ServerAVMS.cancel = True
+        logger.info(e)
+        logger.removeHandler(handler)
+        print("\n")
+        print("Please Cancel Test AVMS and enter a valid Local and SAE address.")

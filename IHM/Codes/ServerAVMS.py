@@ -1,5 +1,7 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import xml.etree.ElementTree as ET
+import logging
+import sys
 
 cancel = False
 tous = False
@@ -40,31 +42,44 @@ class Server(BaseHTTPRequestHandler):
         tree = ET.ElementTree(ET.fromstring(post_data))
         root = tree.getroot()
 
+        # Configuration du logging
+        logging.basicConfig(filename="std.log",
+                            format='%(asctime)s %(message)s',
+                            filemode='w')
+        logger = logging.getLogger()
+        logger.setLevel(logging.INFO)
+
+        # Création et configuration d'un handler
+        handler = logging.StreamHandler(sys.stdout)
+        handler.setLevel(logging.INFO)
+        formatter = logging.Formatter('%(asctime)s - %(message)s')
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+
         # Parcours le plus haut node
         for tag in root.findall("."):
-
-            # Vérification si il s'agit d'un packet provenant du module "PlannedPattern"            
+            # Vérification si il s'agit d'un packet provenant du module "PlannedPattern"
             if tag.tag == "PlannedPatternDelivery":
                 print("DriverID : ")
                 # Execution de la fonction driver_id sur la data récupéré
-                print(driver_id(post_data))
+                logger.info(driver_id(post_data))
                 print("\n")
 
                 print("Destination : ")
                 # Execution de la fonction destination_name sur la data récupéré
-                print(destination_name(post_data))
+                logger.info(destination_name(post_data))
                 print("\n")
 
                 print("Nom de ligne : ")
                 # Execution de la fonction line_name sur la data récupéré
-                print(line_name(post_data))
+                logger.info(line_name(post_data))
                 print("\n")
 
             # Vérification si il s'agit d'un packet provenant du module "VehicleMonitoring"
             if tag.tag == "VehicleMonitoringDelivery":
                 print("Dernier Arrêt : ")
                 # Execution de la fonction last_stop_point_ref sur la data récupéré
-                print(last_stop_point_ref(post_data))
+                logger.info(last_stop_point_ref(post_data))
                 print("\n")
 
             # Vérification si il s'agit d'un packet provenant du module "JourneyMonitoring"
@@ -74,15 +89,18 @@ class Server(BaseHTTPRequestHandler):
                 # Si la longueur de res est supérieur à deux cela veut dire que time_next_stop retourne un message d'erreur
                 if len(res) > 2:
                     print("Heure d'arrivée : ")
-                    print(res)
+                    logger.info(res)
                 else:
                     print("Heure d'arrivée prévue : ")
                     # Affichage sur la console de l'heure d'arrivée prévue
-                    print(res[0])
+                    logger.info(res[0])
                     print("Heure d'arrivée éstimé : ")
                     # Affichage sur la console de l'heure d'arrivée éstimé
-                    print(res[1])
+                    logger.info(res[1])
                     print("\n")
+
+
+            logger.removeHandler(handler)
 
 
 def driver_id(data):
