@@ -546,7 +546,6 @@ def setup_start_avms():
     AVMS_button.config(state=DISABLED)
     APC_button.config(state=DISABLED)
     GLOBAL_button.config(state=DISABLED)
-    Cancel_AVMS_button.config(state=NORMAL)
 
 
 def setup_end_avms():
@@ -598,6 +597,7 @@ def client_avms():
     """
     time.sleep(1)
     ClientAVMS.main_cli_avms(server.get(), local.get())
+    Cancel_AVMS_button.config(state=NORMAL)
 
 
 def cancel_avms():
