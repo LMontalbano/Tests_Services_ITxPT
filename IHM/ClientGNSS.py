@@ -192,6 +192,7 @@ def main_gnss(local):
 
         # Affichage de mes données triées et analysés
         logger.info(parseXML(data.decode()))
+        logger.removeHandler(handler)
 
     # Si on ne récupère pas de data au bout de t second
     except socket.timeout as e:
