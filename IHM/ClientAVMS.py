@@ -146,34 +146,40 @@ def main_cli_avms(server, local):
                             logger.info(e)
                             logger.removeHandler(handler)
                             print("\n")
-                            print("Please Cancel Test AVMS and enter a valid Local and SAE address.")
+                            print("Test AVMS Fail !!!")
+                            print("Please enter a valid Local and SAE address.")
 
                     except requests.exceptions.ConnectionError as e:
                         logger.info(e)
                         logger.removeHandler(handler)
                         print("\n")
-                        print("Please Cancel Test AVMS and enter a valid Local and SAE address.")
+                        print("Test AVMS Fail !!!")
+                        print("Please enter a valid Local and SAE address.")
 
                 except requests.exceptions.ConnectionError as e:
                     logger.info(e)
                     logger.removeHandler(handler)
                     print("\n")
-                    print("Please Cancel Test AVMS and enter a valid Local and SAE address.")
+                    print("Test AVMS Fail !!!")
+                    print("Please enter a valid Local and SAE address.")
 
             except requests.exceptions.ConnectionError as e:
                 logger.info(e)
                 logger.removeHandler(handler)
                 print("\n")
-                print("Please Cancel Test AVMS and enter a valid Local and SAE address.")
+                print("Test AVMS Fail !!!")
+                print("Please enter a valid Local and SAE address.")
 
         except requests.exceptions.ConnectionError as e:
             logger.info(e)
             logger.removeHandler(handler)
             print("\n")
-            print("Please Cancel Test AVMS and enter a valid Local and SAE address.")
+            print("Test AVMS Fail !!!")
+            print("Please enter a valid Local and SAE address.")
 
     except requests.exceptions.ConnectionError as e:
         logger.info(e)
         logger.removeHandler(handler)
         print("\n")
-        print("Please Cancel Test AVMS and enter a valid Local and SAE address.")
+        print("Test AVMS Fail !!!")
+        print("Please enter a valid Local and SAE address.")
