@@ -84,7 +84,9 @@ There are different elements on the main window of the software, we will detail 
 The project is entirely coded in [Python](https://www.python.org/).
  
 
-For the HMI part, the library [Tkinter](https://docs.python.org/3/library/tkinter.html) was chosen.
+For the HMI part, the [Tkinter](https://docs.python.org/3/library/tkinter.html) library was chosen.
+
+For the creation of the .exe, the [PyInstaller](https://www.pyinstaller.org/) library was chosen.
 
 
 
