@@ -63,19 +63,16 @@ class Server(BaseHTTPRequestHandler):
                 print("DriverID : ")
                 # Execution de la fonction driver_id sur la data récupéré
                 logger.info(driver_id(post_data))
-                logger.removeHandler(handler)
                 print("\n")
 
                 print("Destination : ")
                 # Execution de la fonction destination_name sur la data récupéré
                 logger.info(destination_name(post_data))
-                logger.removeHandler(handler)
                 print("\n")
 
                 print("Nom de ligne : ")
                 # Execution de la fonction line_name sur la data récupéré
                 logger.info(line_name(post_data))
-                logger.removeHandler(handler)
                 print("\n")
 
             # Vérification si il s'agit d'un packet provenant du module "VehicleMonitoring"
@@ -83,7 +80,6 @@ class Server(BaseHTTPRequestHandler):
                 print("Dernier Arrêt : ")
                 # Execution de la fonction last_stop_point_ref sur la data récupéré
                 logger.info(last_stop_point_ref(post_data))
-                logger.removeHandler(handler)
                 print("\n")
 
             # Vérification si il s'agit d'un packet provenant du module "JourneyMonitoring"
@@ -94,20 +90,17 @@ class Server(BaseHTTPRequestHandler):
                 if len(res) > 2:
                     print("Heure d'arrivée : ")
                     logger.info(res)
-                    logger.removeHandler(handler)
                 else:
                     print("Heure d'arrivée prévue : ")
                     # Affichage sur la console de l'heure d'arrivée prévue
                     logger.info(res[0])
-                    logger.removeHandler(handler)
                     print("Heure d'arrivée éstimé : ")
                     # Affichage sur la console de l'heure d'arrivée éstimé
                     logger.info(res[1])
-                    logger.removeHandler(handler)
                     print("\n")
 
 
-
+            logger.removeHandler(handler)
 
 
 def driver_id(data):
