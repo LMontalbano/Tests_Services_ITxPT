@@ -21,7 +21,7 @@ informatiques plug and play, modulaire et avec une interopérabilité complète.
 
 ### Pré-requis
 
-Il n'y a pas réelement de pré-requis afin d'utiliser le projet, vous pouvez retrouver un .exe du logiciel afin que
+Il n'y a pas réellement de pré-requis afin d'utiliser le projet, vous pouvez retrouver un .exe du logiciel afin que
 n'importe qui puisse ouvrir cet outil.
 Néanmoins si toute fois vous voulez modifier le code il vous faudra au minimum : 
 
@@ -43,7 +43,7 @@ le projet, soit de le **Télécharger** en [ZIP](https://github.com/LMontalbano/
 
 ### Lancement du logiciel
 
-Le chemin pour accéder au fichier executable est le suivant : ``Tests_Services_ITxPT/App/dist/``, ensuite pouvez
+Le chemin pour accéder au fichier executable est le suivant : ``Tests_Services_ITxPT/App/dist/``, ensuite vous pouvez
 simplement double cliquer sur le fichier ``main.exe``.
 
 Vous pouvez également lancer le logiciel via un terminal :
@@ -51,12 +51,12 @@ Vous pouvez également lancer le logiciel via un terminal :
 - ``py main.pyw``
 
 ## Utilisation
-Une fois le logiciel démarer vous vous retrouverez face à cette fenêtre :
+Une fois le logiciel démarer, vous vous retrouverez face à cette fenêtre :
 
 
 ![Alt text](https://github.com/LMontalbano/Tests_Services_ITxPT/blob/main/Docs/app_screenshot.png?raw=true "app_screenshot")
 
-Il y à différents élements sur la fenêtre principale du logiciel, nous allons les détailler si dessous:
+Il y à différents éléments sur la fenêtre principale du logiciel, nous allons les détailler si dessous :
 
 - Deux inputs :
   - **Local Address** : l'adresse ip local de la machine
@@ -88,7 +88,7 @@ Pour la partie IHM, la librairie [Tkinter](https://docs.python.org/3/library/tki
 
 
 ## Status/ Versions
-Le projet est en cours de développement et n'est pas encore ne production.
+Le projet est en cours de développement et n'est pas encore en production.
 
 ## Auteurs
 Liste des [contributeurs](https://github.com/LMontalbano/Tests_Services_ITxPT/graphs/contributors) : 
