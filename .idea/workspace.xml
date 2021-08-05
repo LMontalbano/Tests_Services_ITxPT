@@ -2,8 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08f739cf-fc0f-41bc-9a93-9e572bc0f97a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README_FR.md" beforeDir="false" afterPath="$PROJECT_DIR$/README_FR.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/build/main/Analysis-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/build/main/EXE-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/build/main/PKG-00.pkg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/build/main/PKG-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/build/main/PYZ-00.pyz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/build/main/PYZ-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/build/main/Tree-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/build/main/Tree-01.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/build/main/Tree-02.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/build/main/base_library.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/build/main/warn-main.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/build/main/xref-main.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/dist/main.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/dist/ressources/ITxPT-logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/dist/ressources/ITxPT_logo.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/dist/ressources/logo_Keolis_metropole_orleans.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
