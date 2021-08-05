@@ -86,6 +86,8 @@ Le projet est entièrement codé en [Python](https://www.python.org/).
 
 Pour la partie IHM, la librairie [Tkinter](https://docs.python.org/3/library/tkinter.html) a été choisie.
 
+Pour la création du .exe, la librairie [PyInstaller](https://www.pyinstaller.org/) a été choisie.
+
 
 
 ## Status/ Versions
