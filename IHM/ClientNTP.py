@@ -62,3 +62,5 @@ def main_ntp(server):
                             filemode='w')
         logger.warning("Failed address lookup")
         logger.removeHandler(handler)
+
+    logger.removeHandler(handler)

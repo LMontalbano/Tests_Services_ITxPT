@@ -99,7 +99,6 @@ class Server(BaseHTTPRequestHandler):
                     logger.info(res[1])
                     print("\n")
 
-
             logger.removeHandler(handler)
 
 

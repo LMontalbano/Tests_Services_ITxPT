@@ -216,6 +216,4 @@ def main_gnss(local):
             logger.error(err)
             logger.removeHandler(handler)
 
-    # Tempo de t second avant de recommencer
-    # time.sleep(t)
     logger.removeHandler(handler)

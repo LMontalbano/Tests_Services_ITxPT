@@ -183,3 +183,5 @@ def main_cli_avms(server, local):
         print("\n")
         print("Test AVMS Fail !!!")
         print("Please enter a valid Local and SAE address.")
+
+    logger.removeHandler(handler)
