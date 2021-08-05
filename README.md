@@ -17,11 +17,11 @@ systèmes. Son rôle est d'accompagner tous les acteurs du marché des transport
 informatiques plug and play, modulaire et avec une interopérabilité complète. 
 
 
-
+## Démarrage
 
 ### Pré-requis
 
-Il n'y a pas réelement de pré-requis afin d'utiliser le projet, car vous pouvez retrouver un .exe du logiciel afin que
+Il n'y a pas réelement de pré-requis afin d'utiliser le projet, vous pouvez retrouver un .exe du logiciel afin que
 n'importe qui puisse ouvrir cet outil.
 Néanmoins si toute fois vous voulez modifier le code il vous faudra au minimum : 
 
@@ -41,7 +41,7 @@ le projet, soit de le **Télécharger** en [ZIP](https://github.com/LMontalbano/
 [ZIP](https://github.com/LMontalbano/Tests_Services_ITxPT/archive/refs/heads/main.zip), rendez-vous dans vos
 **Téléchargement**, puis unzipez le dossier ``Tests_Services_ITxPT.zip``. 
 
-## Démarrage
+### Lancement du logiciel
 
 Le chemin pour accéder au fichier executable est le suivant : ``Tests_Services_ITxPT/App/dist/``, ensuite pouvez
 simplement double cliquer sur le fichier ``main.exe``.
@@ -91,7 +91,7 @@ Pour la partie IHM, la librairie [Tkinter](https://docs.python.org/3/library/tki
 Le projet est en cours de développement et n'est pas encore ne production.
 
 ## Auteurs
-Liste des contributeurs : 
+Liste des [contributeurs](https://github.com/LMontalbano/Tests_Services_ITxPT/graphs/contributors) : 
 - Léonard Montalbano ([LMontalbano](https://github.com/LMontalbano))
 - Pierre Lagarde ([avouspierre](https://github.com/avouspierre))
 
