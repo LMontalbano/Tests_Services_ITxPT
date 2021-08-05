@@ -44,11 +44,11 @@ go to your **Downloads**, then unzip the folder ``Tests_Services_ITxPT.zip``.
 ### Software launch
 
 The path to access the executable file is as follows: ``Tests_Services_ITxPT/App/dist/``, then you can
-simply double-click on the file ``main.exe``.
+simply double-click on the file ``Tests_Services_ITxPT.exe``.
 
 You can also launch the software via a terminal:
 - ``cd Tests_Services_ITxPT/IHM``
-- ``py main.pyw``
+- ``py Tests_Services_ITxPT.pyw``
 
 ## Use
 Once the software starts, you find yourself in front of this window:
