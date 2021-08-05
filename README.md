@@ -8,7 +8,7 @@ and [APC](https://wiki.itxpt.org/index.php?title=S02P07-APC_-_v2.1.1)
 services of the [ITxPT](https://itxpt.org/) standard within the new electric bus fleet of 
 [Keolis Orléans Métropole](https://www.keolis-orleans-recrute.com/qui-sommes-nous/).
 
-## What is l'ITxPT?
+## What is ITxPT?
 Faced with the increase in the number of on-board equipment in public transport, a need to standardize
 communications made itself felt.
 The [ITxPT](https://itxpt.org/) association was created to facilitate integration and communication between
@@ -58,21 +58,21 @@ Once the software starts, you find yourself in front of this window:
 
 There are different elements on the main window of the software, we will detail them below:
 
-- Two inputs :
-  - **Local Address** : The local IP address of the machine
-  - **SAE Address** : The IP address of the SAE UC
+- Two inputs:
+  - **Local Address**: The local IP address of the machine
+  - **SAE Address**: The IP address of the SAE UC
 	
 
 - The Keolis Orléans Métropole logo
 
 
 - Six buttons:
-  - **Test NTP** : Run 5 iterations of the NTP Test
-  - **Test GNSS** : Run 5 iterations of the GNSS Test
-  - **Test AVMS** : Start the AVMS Test
-  - **Cancel Test AVMS** : Allows you to cancel the AVMS test
-  - **Test APC** : Run the APC Test (_not implemented yet_)
-  - **All Test** : Run 5 iterations of each test one after the other
+  - **Test NTP**: Run 5 iterations of the NTP Test
+  - **Test GNSS**: Run 5 iterations of the GNSS Test
+  - **Test AVMS**: Start the AVMS Test
+  - **Cancel Test AVMS**: Allows you to cancel the AVMS test
+  - **Test APC**: Run the APC Test (_not implemented yet_)
+  - **All Test**: Run 5 iterations of each test one after the other
     
 
 - A display window
@@ -84,7 +84,7 @@ There are different elements on the main window of the software, we will detail 
 The project is entirely coded in [Python](https://www.python.org/).
  
 
-For the HMI part, the library[Tkinter](https://docs.python.org/3/library/tkinter.html) a été choisie.
+For the HMI part, the library [Tkinter](https://docs.python.org/3/library/tkinter.html) was chosen.
 
 
 
@@ -92,7 +92,7 @@ For the HMI part, the library[Tkinter](https://docs.python.org/3/library/tkinter
 The project is under development and is not yet in production.
 
 ## Authors
-List of [contributors](https://github.com/LMontalbano/Tests_Services_ITxPT/graphs/contributors) : 
+List of [contributors](https://github.com/LMontalbano/Tests_Services_ITxPT/graphs/contributors): 
 - Léonard Montalbano ([LMontalbano](https://github.com/LMontalbano))
 - Pierre Lagarde ([avouspierre](https://github.com/avouspierre))
 

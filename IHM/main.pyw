@@ -11,7 +11,7 @@ import ClientAVMS
 import ServerAVMS
 
 ######################### Création de la fenêtre principale #########################
-fenetre = Tk(className='test_services_ITxPT')
+fenetre = Tk(className='tests_services_ITxPT')
 fenetre.geometry("910x635")
 fenetre.iconbitmap("ressources/ITxPT_logo.ico")
 
