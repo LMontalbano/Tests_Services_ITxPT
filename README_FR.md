@@ -48,8 +48,8 @@ Le chemin pour accéder au fichier exécutable est le suivant : ``Tests_Services
 simplement double-cliquer sur le fichier ``Tests_Services_ITxPT.exe``.
 
 Vous pouvez également lancer le logiciel via un terminal :
-- ``cd Tests_Services_ITxPT/IHM``
-- ``py Tests_Services_ITxPT.pyw``
+- ``$ cd Tests_Services_ITxPT/IHM``
+- ``$ py Tests_Services_ITxPT.pyw``
 
 ## Utilisation
 Une fois le logiciel démarrer, vous vous retrouverez face à cette fenêtre :

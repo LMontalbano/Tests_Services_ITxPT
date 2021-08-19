@@ -47,8 +47,8 @@ The path to access the executable file is as follows: ``Tests_Services_ITxPT/App
 simply double-click on the file ``Tests_Services_ITxPT.exe``.
 
 You can also launch the software via a terminal:
-- ``cd Tests_Services_ITxPT/IHM``
-- ``py Tests_Services_ITxPT.pyw``
+- ``$ cd Tests_Services_ITxPT/IHM``
+- ``$ py Tests_Services_ITxPT.pyw``
 
 ## Use
 Once the software starts, you find yourself in front of this window:

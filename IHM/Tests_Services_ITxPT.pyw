@@ -15,7 +15,6 @@ fenetre = Tk(className='tests_services_ITxPT')
 fenetre.geometry("910x635")
 fenetre.iconbitmap("ressources/ITxPT_logo.ico")
 
-
 ### Création des Labels ###
 label_principale = LabelFrame(fenetre)
 label_principale.grid(row=0, column=1, padx=50, pady=10)
@@ -31,7 +30,6 @@ label_button.grid(row=1, column=1, padx=50, pady=10)
 
 label_console = LabelFrame(fenetre)
 label_console.grid(row=2, column=1, padx=50, pady=10)
-
 
 ### Création des input ###
 # Address Local
@@ -51,7 +49,6 @@ server = tk.StringVar(value='127.0.0.1')
 
 address_input_SAE = Entry(label_input, textvariable=server)
 address_input_SAE.grid(column=2, row=2, padx=5, pady=5)
-
 
 ### Logo Keolis ###
 img = ImageTk.PhotoImage(file="ressources/logo_Keolis_metropole_orleans.png")
@@ -754,12 +751,10 @@ def change_back_button_global():
 GLOBAL_button = Button(label_button, text="All Tests", command=all_tests)
 GLOBAL_button.grid(column=6, row=3, ipadx=15, ipady=10, padx=5, pady=5)
 
-
 ######################### Zone de texte #########################
 
 text_console = tk.Text(label_console, width=100, height=21, state=DISABLED)
 text_console.grid(column=1, row=4)
-
 
 # Pour finir, on lance la boucle programme
 fenetre.mainloop()
