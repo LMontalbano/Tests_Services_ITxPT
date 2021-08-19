@@ -100,6 +100,6 @@ List of [contributors](https://github.com/LMontalbano/Tests_Services_ITxPT/graph
 
 ## License
 
-This project is licensed ``exemple: WTFTPL`` - see the file [LICENSE.md](LICENSE.md) for more information.
+This project is licensed ``MIT`` - see the file [LICENSE.md](LICENSE.md) for more information.
 
 
