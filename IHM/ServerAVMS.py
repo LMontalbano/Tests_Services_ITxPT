@@ -5,6 +5,7 @@ import sys
 
 cancel = False
 tous = False
+x_class = 0
 
 
 # Création de l'objet Server
@@ -56,6 +57,11 @@ class Server(BaseHTTPRequestHandler):
         handler.setFormatter(formatter)
         logger.addHandler(handler)
 
+        global x_class
+
+        if tous or x_class < 5:
+            logger.removeHandler(handler)
+
         # Parcours le plus haut node
         for tag in root.findall("."):
             # Vérification si il s'agit d'un packet provenant du module "PlannedPattern"
@@ -100,6 +106,7 @@ class Server(BaseHTTPRequestHandler):
                     print("\n")
 
             logger.removeHandler(handler)
+            x_class += 1
 
 
 def driver_id(data):
