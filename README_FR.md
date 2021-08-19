@@ -7,7 +7,7 @@ Projet d'un logiciel embarqué permettant de tester les services
 et [APC](https://wiki.itxpt.org/index.php?title=S02P07-APC_-_v2.1.1) 
 de la norme [ITxPT](https://itxpt.org/) au
 sein de la nouvelle flotte de bus électrique de 
-[Keolis Métropole Orléans](https://www.keolis-orleans-recrute.com/qui-sommes-nous/).
+[Keolis Métropole Orléans](https://www.reseau-tao.fr/index.php?).
 
 ## Qu'est-ce que l'ITxPT ?
 Face à l'augmentation du nombre d'équipements embarqués au sein des transports public, un besoin de normaliser les

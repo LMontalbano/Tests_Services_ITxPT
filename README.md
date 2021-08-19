@@ -6,7 +6,7 @@ Project of an embedded software allowing to test the
 [AVMS](https://wiki.itxpt.org/index.php?title=S02P06-AVMS_-_v2.1.1) 
 and [APC](https://wiki.itxpt.org/index.php?title=S02P07-APC_-_v2.1.1) 
 services of the [ITxPT](https://itxpt.org/) standard within the new electric bus fleet of 
-[Keolis Métropole Orléans](https://www.keolis-orleans-recrute.com/qui-sommes-nous/).
+[Keolis Métropole Orléans](https://www.reseau-tao.fr/index.php?).
 
 ## What is ITxPT?
 Faced with the increase in the number of on-board equipment in public transport, a need to standardize
