@@ -8,7 +8,7 @@ import socket
 def get_network_time(ntp_server):
     """ Fonction pour récupérer l'heure à partir d'un server NTP
         Nom fonction: get_network_time()
-        Paramètre: server, un server NTP, par défaut 'pool.ntp.org'
+        Paramètre: server, un server NTP
         Return: une date sous la forme : 'Jour Mois NumJour Heure:Min:Sec Année en UTC +0' """
 
     # Création d'un client via la librairie ntplib

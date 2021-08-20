@@ -67,11 +67,11 @@ There are different elements on the main window of the software, we will detail 
 
 
 - Six buttons:
-  - **Test NTP**: Run 5 iterations of the NTP Test
-  - **Test GNSS**: Run 5 iterations of the GNSS Test
-  - **Test AVMS**: Start the AVMS Test
+  - **Test NTP**: Run 5 iterations of the NTP Test ([details](https://github.com/LMontalbano/Tests_Services_ITxPT/Docs/explanation/explanation_NTP.md))
+  - **Test GNSS**: Run 5 iterations of the GNSS Test ([details](https://github.com/LMontalbano/Tests_Services_ITxPT/Docs/explanation/explanation_GNSS.md))
+  - **Test AVMS**: Start the AVMS Test ([details](https://github.com/LMontalbano/Tests_Services_ITxPT/Docs/explanation/explanation_AVMS.md))
   - **Cancel Test AVMS**: Allows you to cancel the AVMS test
-  - **Test APC**: Run the APC Test (_not implemented yet_)
+  - **Test APC**: Run the APC Test (_not implemented yet_) ([details](https://github.com/LMontalbano/Tests_Services_ITxPT/Docs/explanation/explanation_APC.md))
   - **All Test**: Run 5 iterations of each test one after the other
     
 
