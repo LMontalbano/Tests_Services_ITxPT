@@ -47,6 +47,11 @@ le projet, soit de le **Télécharger** en [ZIP](https://github.com/LMontalbano/
 Le chemin pour accéder au fichier exécutable est le suivant : ``Tests_Services_ITxPT/App/dist/``, ensuite vous pouvez
 simplement double-cliquer sur le fichier ``Tests_Services_ITxPT.exe``.
 
+**Attention toujours garder le dossier _"ressources"_ dans le même répertoire que le .exe sinon le logiciel ne pourra pas ce lancer !!!**
+
+_Astuce : vous pouvez créer un raccourci du .exe afin de ne pas avoir besoin de changer d'emplacement le dossier "ressources"_
+
+
 Vous pouvez également lancer le logiciel via un terminal :
 - ``$ cd Tests_Services_ITxPT/IHM``
 - ``$ py Tests_Services_ITxPT.pyw``
