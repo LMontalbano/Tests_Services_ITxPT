@@ -68,11 +68,11 @@ Il y à différents éléments sur la fenêtre principale du logiciel, nous allo
 
 
 - Six boutons:
-  - **Test NTP** : Lance 5 itérations du Test NTP ([détails](https://github.com/LMontalbano/Tests_Services_ITxPT/Docs/explanation/explanation_NTP.md))
-  - **Test GNSS** : Lance 5 itérations du Test GNSS ([détails](https://github.com/LMontalbano/Tests_Services_ITxPT/Docs/explanation/explanation_GNSS.md))
-  - **Test AVMS** : Lance le Test AVMS ([détails](https://github.com/LMontalbano/Tests_Services_ITxPT/Docs/explanation/explanation_AVMS.md))
+  - **Test NTP** : Lance 5 itérations du Test NTP ([détails](https://github.com/LMontalbano/Tests_Services_ITxPT/blob/main/Docs/explanation/explanation_NTP.md))
+  - **Test GNSS** : Lance 5 itérations du Test GNSS ([détails](https://github.com/LMontalbano/Tests_Services_ITxPT/blob/main/Docs/explanation/explanation_GNSS.md))
+  - **Test AVMS** : Lance le Test AVMS ([détails](https://github.com/LMontalbano/Tests_Services_ITxPT/blob/main/Docs/explanation/explanation_AVMS.md))
   - **Cancel Test AVMS** : Permet de cancel le Test AVMS
-  - **Test APC** : Lance le Test APC (_pas encore implémenté_) ([détails](https://github.com/LMontalbano/Tests_Services_ITxPT/Docs/explanation/explanation_APC.md))
+  - **Test APC** : Lance le Test APC (_pas encore implémenté_) ([détails](https://github.com/LMontalbano/Tests_Services_ITxPT/blob/main/Docs/explanation/explanation_APC.md))
   - **All Test** : Lance 5 itérations de chaque test les un après les autres
     
 
